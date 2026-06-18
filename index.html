@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Family WC 2026 Qualifier</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #f9fafb; min-height: 100vh; }
+  select { font-family: inherit; }
+  button { font-family: inherit; }
+  ::-webkit-scrollbar { height: 4px; width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- React + Babel (no build step needed) -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+<!-- Firebase -->
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJl7_QzXen3L2KGK38asu1ISiVyHc2bXU",
+    authDomain: "okabians-wc26.firebaseapp.com",
+    databaseURL: "https://okabians-wc26-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "okabians-wc26",
+    storageBucket: "okabians-wc26.firebasestorage.app",
+    messagingSenderId: "251040794708",
+    appId: "1:251040794708:web:a74ac6de9b027da21685c1",
+    measurementId: "G-JQ62PDFXVG"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+
+  window.__firebase = {
+    subscribe: (cb) => {
+      const r = ref(db, "wc2026/results");
+      return onValue(r, snap => cb(snap.exists() ? snap.val() : null));
+    },
+    save: (data) => set(ref(db, "wc2026/results"), data)
+  };
+  window.__firebaseReady = true;
+  window.dispatchEvent(new Event("firebase-ready"));
+</script>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const GROUPS = {
+  A: { teams: ["🇲🇽 Mexico","🇰🇷 South Korea","🇨🇿 Czechia","🇿🇦 South Africa"] },
+  B: { teams: ["🇨🇦 Canada","🇧🇦 Bosnia & Herzegovina","🇶🇦 Qatar","🇨🇭 Switzerland"] },
+  C: { teams: ["🇧🇷 Brazil","🇲🇦 Morocco","🇭🇹 Haiti","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"] },
+  D: { teams: ["🇺🇸 USA","🇵🇾 Paraguay","🇦🇺 Australia","🇹🇷 Türkiye"] },
+  E: { teams: ["🇩🇪 Germany","🇨🇼 Curaçao","🇨🇮 Côte d'Ivoire","🇪🇨 Ecuador"] },
+  F: { teams: ["🇳🇱 Netherlands","🇯🇵 Japan","🇸🇪 Sweden","🇹🇳 Tunisia"] },
+  G: { teams: ["🇧🇪 Belgium","🇪🇬 Egypt","🇮🇷 Iran","🇳🇿 New Zealand"] },
+  H: { teams: ["🇪🇸 Spain","🇨🇻 Cabo Verde","🇸🇦 Saudi Arabia","🇺🇾 Uruguay"] },
+  I: { teams: ["🇫🇷 France","🇸🇳 Senegal","🇮🇶 Iraq","🇳🇴 Norway"] },
+  J: { teams: ["🇦🇷 Argentina","🇩🇿 Algeria","🇦🇹 Austria","🇯🇴 Jordan"] },
+  K: { teams: ["🇵🇹 Portugal","🇨🇩 DR Congo","🇺🇿 Uzbekistan","🇨🇴 Colombia"] },
+  L: { teams: ["🏴󠁧󠁢󠁥󠁮󠁧󠁿 England","🇭🇷 Croatia","🇬🇭 Ghana","🇵🇦 Panama"] },
+};
+
+const PREDICTORS_RAW = [
+  {
+    name: "Omar", email: "omar.th.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇿🇦 South Africa"},
+      B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"},
+      C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇹🇷 Türkiye",second:"🇺🇸 USA",third:"🇦🇺 Australia"},
+      E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"},
+      F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},
+      G:{first:"🇪🇬 Egypt",second:"🇧🇪 Belgium",third:"🇮🇷 Iran"},
+      H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇨🇻 Cabo Verde"},
+      I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"},
+      J:{first:"🇦🇷 Argentina",second:"🇦🇹 Austria",third:"🇩🇿 Algeria"},
+      K:{first:"🇯🇴 Jordan",second:"🇵🇹 Portugal",third:"🇺🇿 Uzbekistan"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🇧🇦 Bosnia & Herzegovina","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇦🇺 Australia","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇳 Senegal","🇩🇿 Algeria","🇬🇭 Ghana"],
+  },
+  {
+    name: "Hamada", email: "ah.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},
+      B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"},
+      C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇵🇾 Paraguay",second:"🇺🇸 USA",third:"🇹🇷 Türkiye"},
+      E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},
+      F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"},
+      G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},
+      H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},
+      I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},
+      J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},
+      K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇨🇩 DR Congo"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🇨🇿 Czechia","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇹🇷 Türkiye","🇪🇨 Ecuador","🇯🇵 Japan","🇳🇴 Norway","🇦🇹 Austria","🇨🇩 DR Congo"],
+  },
+  {
+    name: "Hooba", email: "ehab.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},
+      B:{first:"🇶🇦 Qatar",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇦 Canada"},
+      C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"},
+      E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},
+      F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},
+      G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},
+      H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},
+      I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},
+      J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},
+      K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🇧🇦 Bosnia & Herzegovina","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇮🇷 Iran","🇸🇳 Senegal","🇦🇹 Austria","🇺🇿 Uzbekistan","🇬🇭 Ghana"],
+  },
+  {
+    name: "Bodz", email: "a.rahman.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},
+      B:{first:"🇨🇦 Canada",second:"🇨🇭 Switzerland",third:"🇶🇦 Qatar"},
+      C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"},
+      E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},
+      F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"},
+      G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},
+      H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},
+      I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},
+      J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇯🇴 Jordan"},
+      K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🇨🇿 Czechia","🇶🇦 Qatar","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇪🇨 Ecuador","🇯🇵 Japan","🇸🇦 Saudi Arabia","🇯🇴 Jordan","🇬🇭 Ghana"],
+  },
+  {
+    name: "Joe", email: "youssef.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},
+      B:{first:"🇧🇦 Bosnia & Herzegovina",second:"🇨🇦 Canada",third:"🇶🇦 Qatar"},
+      C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇺🇸 USA",second:"🇵🇾 Paraguay",third:"🇦🇺 Australia"},
+      E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"},
+      F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},
+      G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇳🇿 New Zealand"},
+      H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"},
+      I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},
+      J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},
+      K:{first:"🇵🇹 Portugal",second:"🇨🇩 DR Congo",third:"🇨🇴 Colombia"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇵🇾 Paraguay","🇪🇨 Ecuador","🇸🇪 Sweden","🇺🇾 Uruguay","🇳🇴 Norway","🇦🇹 Austria","🇨🇴 Colombia"],
+  },
+  {
+    name: "Thoory", email: "tharwat.okab@gmail.com",
+    groups: {
+      A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},
+      B:{first:"🇨🇦 Canada",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇭 Switzerland"},
+      C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+      D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇹🇷 Türkiye"},
+      E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"},
+      F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},
+      G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},
+      H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"},
+      I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"},
+      J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},
+      K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},
+      L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+    },
+    bestThirds:["🇨🇭 Switzerland","🇹🇷 Türkiye","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇦 Saudi Arabia","🇸🇳 Senegal","🇺🇿 Uzbekistan","🇬🇭 Ghana"],
+  },
+];
+
+const EMPTY_RESULTS = Object.fromEntries(
+  Object.keys(GROUPS).map(g => [g, { first:"", second:"", third:"" }])
+);
+
+const AVATARS      = ["🦁","🐯","🦊","🐺","🦅","🐉"];
+const AVATAR_COLORS= ["#e84393","#f97316","#10b981","#6366f1","#0ea5e9","#a855f7"];
+const MEDAL        = { first:"🥇", second:"🥈", third:"🥉" };
+
+// ─── SCORING ─────────────────────────────────────────────────────────────────
+
+function calcScore(predictor, results, bestThirdsResult) {
+  let pts = 0;
+  Object.keys(GROUPS).forEach(g => {
+    const r = results[g], p = predictor.groups[g];
+    if (!r || !p) return;
+    if (r.first  && r.first  === p.first)  pts++;
+    if (r.second && r.second === p.second) pts++;
+    if (r.third  && r.third  === p.third)  pts++;
+  });
+  if (bestThirdsResult?.length)
+    predictor.bestThirds.forEach(t => { if (bestThirdsResult.includes(t)) pts++; });
+  return pts;
+}
+
+function maxPossible(predictor, results, bestThirdsResult) {
+  let max = 0;
+  Object.keys(GROUPS).forEach(g => {
+    const r = results[g], p = predictor.groups[g];
+    if (!r || !p) { max += 3; return; }
+    if (!r.first)  max++; else if (r.first  === p.first)  max++;
+    if (!r.second) max++; else if (r.second === p.second) max++;
+    if (!r.third)  max++; else if (r.third  === p.third)  max++;
+  });
+  predictor.bestThirds.forEach(t => {
+    if (!bestThirdsResult?.length || bestThirdsResult.includes(t)) max++;
+  });
+  return max;
+}
+
+// ─── UI COMPONENTS ───────────────────────────────────────────────────────────
+
+function Badge({ type, children }) {
+  const s = { correct:{bg:"#d1fae5",color:"#065f46",border:"#6ee7b7"}, wrong:{bg:"#fee2e2",color:"#991b1b",border:"#fca5a5"}, pending:{bg:"#f3f4f6",color:"#6b7280",border:"#d1d5db"} }[type] || {bg:"#f3f4f6",color:"#6b7280",border:"#d1d5db"};
+  return <span style={{display:"inline-block",padding:"2px 8px",borderRadius:999,fontSize:12,fontWeight:600,background:s.bg,color:s.color,border:`1px solid ${s.border}`,whiteSpace:"nowrap"}}>{children}</span>;
+}
+
+function SyncStatus({ status }) {
+  const cfg = { idle:{icon:"☁️",text:"Synced",color:"#10b981"}, saving:{icon:"⏳",text:"Saving…",color:"#f97316"}, saved:{icon:"✅",text:"Saved",color:"#10b981"}, loading:{icon:"🔄",text:"Loading…",color:"#6b7280"}, error:{icon:"⚠️",text:"Sync error",color:"#ef4444"} };
+  const c = cfg[status] || cfg.idle;
+  return <div style={{display:"flex",alignItems:"center",gap:6,fontSize:12,color:c.color,fontWeight:600,padding:"4px 10px",borderRadius:999,background:c.color+"18",border:`1px solid ${c.color}44`}}><span>{c.icon}</span><span>{c.text}</span></div>;
+}
+
+function PredictionsView({ predictor, results, bestThirdsResult, avatarIdx }) {
+  const score = calcScore(predictor, results, bestThirdsResult);
+  const max   = maxPossible(predictor, results, bestThirdsResult);
+  const color = AVATAR_COLORS[avatarIdx % AVATAR_COLORS.length];
+  return (
+    <div style={{padding:"0 0 32px"}}>
+      <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:28,padding:"20px 24px",background:"#fff",borderRadius:16,border:"1px solid #e5e7eb",boxShadow:"0 1px 4px rgba(0,0,0,0.06)"}}>
+        <div style={{width:52,height:52,borderRadius:"50%",background:color+"22",border:`2px solid ${color}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>{AVATARS[avatarIdx % AVATARS.length]}</div>
+        <div>
+          <div style={{fontWeight:800,fontSize:22,color:"#111"}}>{predictor.name}</div>
+          <div style={{color:"#6b7280",fontSize:13}}>{predictor.email}</div>
+        </div>
+        <div style={{marginLeft:"auto",textAlign:"right"}}>
+          <div style={{fontWeight:800,fontSize:28,color}}>{score} <span style={{fontSize:14,fontWeight:500,color:"#9ca3af"}}>/ {max} possible</span></div>
+          <div style={{fontSize:12,color:"#9ca3af"}}>current pts</div>
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(300px,1fr))",gap:16}}>
+        {Object.keys(GROUPS).map(g => {
+          const p = predictor.groups[g], r = results[g];
+          return (
+            <div key={g} style={{background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #e5e7eb",boxShadow:"0 1px 3px rgba(0,0,0,0.04)"}}>
+              <div style={{fontWeight:700,fontSize:14,color:"#374151",marginBottom:10}}>
+                <span style={{background:color,color:"#fff",borderRadius:6,padding:"2px 8px",fontSize:12,fontWeight:700}}>Group {g}</span>
+              </div>
+              {["first","second","third"].map(pos => {
+                const predicted = p[pos], actual = r?.[pos];
+                const isCorrect = actual && predicted === actual;
+                const isWrong   = actual && predicted !== actual;
+                return (
+                  <div key={pos} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"5px 0",borderBottom:pos!=="third"?"1px solid #f3f4f6":"none"}}>
+                    <span style={{fontSize:13,color:"#6b7280",width:24}}>{MEDAL[pos]}</span>
+                    <span style={{fontSize:13,flex:1,color:"#111"}}>{predicted||"—"}</span>
+                    <Badge type={!actual?"pending":isCorrect?"correct":"wrong"}>{!actual?"pending":isCorrect?"✓":`✗ ${actual}`}</Badge>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{marginTop:20,background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #e5e7eb"}}>
+        <div style={{fontWeight:700,fontSize:14,color:"#374151",marginBottom:12}}>Best 8 Third-Place Picks</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+          {predictor.bestThirds.map(t => {
+            const isCorrect = bestThirdsResult?.includes(t), isPending = !bestThirdsResult?.length;
+            return <Badge key={t} type={isPending?"pending":isCorrect?"correct":"wrong"}>{t}</Badge>;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ResultsEditor({ results, setResults, bestThirdsResult, setBestThirdsResult, syncStatus }) {
+  return (
+    <div style={{padding:"0 0 32px"}}>
+      <div style={{marginBottom:20,display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:10}}>
+        <div>
+          <h2 style={{fontWeight:800,fontSize:20,color:"#111",marginBottom:4}}>Update Group Results</h2>
+          <p style={{color:"#6b7280",fontSize:13}}>Changes are saved and shared with everyone instantly.</p>
+        </div>
+        <SyncStatus status={syncStatus}/>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(300px,1fr))",gap:16,marginBottom:24}}>
+        {Object.keys(GROUPS).map(g => {
+          const teams = GROUPS[g].teams, r = results[g]||{first:"",second:"",third:""};
+          const updatePos = (pos, val) => setResults(prev => ({...prev,[g]:{...prev[g],[pos]:val}}));
+          return (
+            <div key={g} style={{background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #e5e7eb"}}>
+              <div style={{fontWeight:700,fontSize:14,color:"#374151",marginBottom:12,display:"flex",alignItems:"center",gap:8}}>
+                <span style={{background:"#111",color:"#fff",borderRadius:6,padding:"2px 8px",fontSize:12,fontWeight:700}}>Group {g}</span>
+                <span style={{fontSize:12,color:"#9ca3af"}}>{teams.map(t=>t.split(" ")[0]).join(" ")}</span>
+              </div>
+              {["first","second","third"].map(pos => (
+                <div key={pos} style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                  <span style={{width:24,fontSize:16}}>{MEDAL[pos]}</span>
+                  <select value={r[pos]||""} onChange={e=>updatePos(pos,e.target.value)} style={{flex:1,padding:"6px 10px",borderRadius:8,border:"1px solid #d1d5db",fontSize:13,background:"#f9fafb",cursor:"pointer",outline:"none"}}>
+                    <option value="">— not set —</option>
+                    {teams.map(t=><option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{background:"#fff",borderRadius:14,padding:"20px 18px",border:"1px solid #e5e7eb"}}>
+        <div style={{fontWeight:700,fontSize:15,color:"#374151",marginBottom:4}}>Best 8 Third-Place Teams (advancing)</div>
+        <p style={{color:"#6b7280",fontSize:12,marginBottom:14}}>Select exactly 8 third-placed teams that advance to the knockout stage.</p>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+          {Object.keys(GROUPS).map(g => {
+            const third = results[g]?.third;
+            if (!third) return null;
+            const selected = bestThirdsResult.includes(third);
+            return (
+              <button key={g+third} onClick={()=>setBestThirdsResult(prev=>selected?prev.filter(x=>x!==third):prev.length<8?[...prev,third]:prev)} style={{padding:"6px 14px",borderRadius:999,fontSize:13,fontWeight:600,border:selected?"2px solid #10b981":"2px solid #d1d5db",background:selected?"#d1fae5":"#f9fafb",color:selected?"#065f46":"#374151",cursor:"pointer"}}>
+                {third} <span style={{fontSize:11,color:"#9ca3af"}}>(G{g})</span>
+              </button>
+            );
+          })}
+        </div>
+        {Object.values(results).filter(r=>r.third).length===0 && <p style={{color:"#9ca3af",fontSize:13,marginTop:8}}>Set group results above to see third-place teams here.</p>}
+        <div style={{marginTop:10,fontSize:13,color:"#6b7280"}}>Selected: <strong style={{color:bestThirdsResult.length===8?"#10b981":"#f97316"}}>{bestThirdsResult.length}/8</strong></div>
+      </div>
+    </div>
+  );
+}
+
+function Leaderboard({ results, bestThirdsResult }) {
+  const maxTotal = Object.keys(GROUPS).length * 3 + 8;
+  const scored = PREDICTORS_RAW.map((p,i) => ({...p,score:calcScore(p,results,bestThirdsResult),max:maxPossible(p,results,bestThirdsResult),avatarIdx:i})).sort((a,b)=>b.score-a.score);
+  return (
+    <div style={{padding:"0 0 32px"}}>
+      <div style={{marginBottom:24}}>
+        <h2 style={{fontWeight:800,fontSize:20,color:"#111",marginBottom:4}}>Leaderboard</h2>
+        <p style={{color:"#6b7280",fontSize:13}}>Max 44 pts total (3 per group × 12 + 8 best thirds bonus)</p>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:12}}>
+        {scored.map((p,rank) => {
+          const color = AVATAR_COLORS[p.avatarIdx%AVATAR_COLORS.length];
+          const pct   = (p.score/maxTotal)*100;
+          const isFirst = rank===0;
+          return (
+            <div key={p.name} style={{background:"#fff",borderRadius:16,padding:"18px 22px",border:isFirst&&p.score>0?`2px solid ${color}`:"1px solid #e5e7eb",boxShadow:isFirst&&p.score>0?`0 4px 16px ${color}33`:"0 1px 4px rgba(0,0,0,0.04)",display:"flex",alignItems:"center",gap:16}}>
+              <div style={{fontSize:rank===0?28:rank===1?24:rank===2?20:18,width:36,textAlign:"center",lineHeight:1}}>
+                {rank===0&&p.score>0?"🥇":rank===1?"🥈":rank===2?"🥉":`#${rank+1}`}
+              </div>
+              <div style={{width:44,height:44,borderRadius:"50%",background:color+"22",border:`2px solid ${color}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:22,flexShrink:0}}>{AVATARS[p.avatarIdx%AVATARS.length]}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:700,fontSize:16,color:"#111"}}>{p.name}</div>
+                <div style={{marginTop:6,height:6,borderRadius:999,background:"#f3f4f6",overflow:"hidden"}}>
+                  <div style={{height:"100%",width:`${pct}%`,borderRadius:999,background:`linear-gradient(90deg, ${color}, ${color}bb)`,transition:"width 0.6s ease"}}/>
+                </div>
+              </div>
+              <div style={{textAlign:"right",flexShrink:0}}>
+                <div style={{fontWeight:800,fontSize:28,color}}>{p.score}</div>
+                <div style={{fontSize:12,color:"#9ca3af"}}>max {p.max}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function GroupResultsView({ results, bestThirdsResult }) {
+  return (
+    <div style={{padding:"0 0 32px"}}>
+      <div style={{marginBottom:20}}>
+        <h2 style={{fontWeight:800,fontSize:20,color:"#111",marginBottom:4}}>Group Results</h2>
+        <p style={{color:"#6b7280",fontSize:13}}>Current standings across all 12 groups.</p>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(280px,1fr))",gap:14}}>
+        {Object.keys(GROUPS).map(g => {
+          const r = results[g], hasAny = r?.first||r?.second||r?.third;
+          return (
+            <div key={g} style={{background:"#fff",borderRadius:14,padding:"16px 18px",border:"1px solid #e5e7eb"}}>
+              <div style={{fontWeight:700,fontSize:13,marginBottom:10,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <span style={{background:"#111",color:"#fff",borderRadius:6,padding:"2px 8px",fontSize:12}}>Group {g}</span>
+                {!hasAny && <span style={{fontSize:11,color:"#d1d5db"}}>awaiting results</span>}
+              </div>
+              {["first","second","third"].map(pos => (
+                <div key={pos} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0",borderBottom:pos!=="third"?"1px solid #f3f4f6":"none"}}>
+                  <span style={{fontSize:16}}>{MEDAL[pos]}</span>
+                  <span style={{fontSize:13,color:r?.[pos]?"#111":"#d1d5db"}}>{r?.[pos]||"—"}</span>
+                  {r?.[pos]&&bestThirdsResult.includes(r[pos])&&pos==="third"&&<span style={{marginLeft:"auto",fontSize:11,background:"#fef9c3",color:"#854d0e",borderRadius:6,padding:"1px 6px"}}>advances ✓</span>}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────────────────────
+
+const TABS = [
+  { id:"leaderboard", label:"🏆 Leaderboard" },
+  { id:"results",     label:"📊 Group Results" },
+  { id:"predictions", label:"👤 Predictions" },
+  { id:"edit",        label:"✏️ Edit Results" },
+];
+
+function App() {
+  const [tab, setTab]                         = useState("leaderboard");
+  const [selectedPredictor, setSelectedPredictor] = useState(0);
+  const [results, setResults]                 = useState(EMPTY_RESULTS);
+  const [bestThirdsResult, setBestThirdsResult] = useState([]);
+  const [syncStatus, setSyncStatus]           = useState("loading");
+  const saveTimeout                           = useRef(null);
+  const latestData                            = useRef({ results: EMPTY_RESULTS, bestThirdsResult: [] });
+
+  // ── Subscribe to Firebase ─────────────────────────────────────────────────
+  useEffect(() => {
+    const init = () => {
+      const unsub = window.__firebase.subscribe(data => {
+        if (data) {
+          if (data.results) {
+            setResults(data.results);
+            latestData.current.results = data.results;
+          }
+          if (data.bestThirdsResult) {
+            setBestThirdsResult(data.bestThirdsResult);
+            latestData.current.bestThirdsResult = data.bestThirdsResult;
+          }
+        }
+        setSyncStatus("idle");
+      });
+      return unsub;
+    };
+
+    if (window.__firebaseReady) {
+      init();
+    } else {
+      window.addEventListener("firebase-ready", init, { once: true });
+    }
+  }, []);
+
+  // ── Persist ───────────────────────────────────────────────────────────────
+  const persist = useCallback((r, b) => {
+    setSyncStatus("saving");
+    window.__firebase.save({ results: r, bestThirdsResult: b })
+      .then(() => { setSyncStatus("saved"); setTimeout(()=>setSyncStatus("idle"),2000); })
+      .catch(() => setSyncStatus("error"));
+  }, []);
+
+  const handleSetResults = useCallback(updater => {
+    setResults(prev => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      latestData.current.results = next;
+      clearTimeout(saveTimeout.current);
+      saveTimeout.current = setTimeout(() => persist(next, latestData.current.bestThirdsResult), 600);
+      return next;
+    });
+  }, [persist]);
+
+  const handleSetBestThirds = useCallback(updater => {
+    setBestThirdsResult(prev => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      latestData.current.bestThirdsResult = next;
+      clearTimeout(saveTimeout.current);
+      saveTimeout.current = setTimeout(() => persist(latestData.current.results, next), 600);
+      return next;
+    });
+  }, [persist]);
+
+  return (
+    <div style={{minHeight:"100vh",background:"#f9fafb",fontFamily:"'Inter', system-ui, sans-serif"}}>
+      <div style={{background:"#111",color:"#fff",padding:"20px 24px 0",position:"sticky",top:0,zIndex:100,boxShadow:"0 2px 12px rgba(0,0,0,0.3)"}}>
+        <div style={{maxWidth:900,margin:"0 auto"}}>
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
+            <span style={{fontSize:28}}>⚽</span>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:800,fontSize:18,letterSpacing:"-0.3px"}}>Family WC Qualifier</div>
+              <div style={{fontSize:12,color:"#9ca3af"}}>2026 World Cup Qualifying Phase</div>
+            </div>
+            <SyncStatus status={syncStatus}/>
+          </div>
+          <div style={{display:"flex",gap:2,overflowX:"auto",paddingBottom:0}}>
+            {TABS.map(t => (
+              <button key={t.id} onClick={()=>setTab(t.id)} style={{padding:"10px 16px",borderRadius:"8px 8px 0 0",border:"none",background:tab===t.id?"#f9fafb":"transparent",color:tab===t.id?"#111":"#9ca3af",fontWeight:tab===t.id?700:500,fontSize:13,cursor:"pointer",whiteSpace:"nowrap",transition:"all 0.15s"}}>{t.label}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{maxWidth:900,margin:"0 auto",padding:"24px 16px"}}>
+        {syncStatus==="loading" ? (
+          <div style={{textAlign:"center",padding:"60px 0",color:"#9ca3af",fontSize:16}}>🔄 Loading shared results…</div>
+        ) : (
+          <>
+            {tab==="leaderboard" && <Leaderboard results={results} bestThirdsResult={bestThirdsResult}/>}
+            {tab==="results"     && <GroupResultsView results={results} bestThirdsResult={bestThirdsResult}/>}
+            {tab==="predictions" && (
+              <div>
+                <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:20}}>
+                  {PREDICTORS_RAW.map((p,i) => (
+                    <button key={p.name} onClick={()=>setSelectedPredictor(i)} style={{padding:"8px 16px",borderRadius:999,fontSize:14,fontWeight:600,border:selectedPredictor===i?`2px solid ${AVATAR_COLORS[i%AVATAR_COLORS.length]}`:"2px solid #e5e7eb",background:selectedPredictor===i?AVATAR_COLORS[i%AVATAR_COLORS.length]+"18":"#fff",color:selectedPredictor===i?AVATAR_COLORS[i%AVATAR_COLORS.length]:"#374151",cursor:"pointer"}}>
+                      {AVATARS[i%AVATARS.length]} {p.name}
+                    </button>
+                  ))}
+                </div>
+                <PredictionsView predictor={PREDICTORS_RAW[selectedPredictor]} results={results} bestThirdsResult={bestThirdsResult} avatarIdx={selectedPredictor}/>
+              </div>
+            )}
+            {tab==="edit" && <ResultsEditor results={results} setResults={handleSetResults} bestThirdsResult={bestThirdsResult} setBestThirdsResult={handleSetBestThirds} syncStatus={syncStatus}/>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+
+</body>
+</html>
