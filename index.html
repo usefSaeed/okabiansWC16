@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 WC26 Okabians</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+–gold: #F5C518;
+–gold-dim: #b8920f;
+–green: #1a7a3c;
+–green-bright: #22c55e;
+–red: #dc2626;
+–bg: #0a0a0a;
+–bg2: #111111;
+–bg3: #1a1a1a;
+–bg4: #242424;
+–border: #2a2a2a;
+–text: #f0f0f0;
+–text-dim: #888;
+–text-muted: #555;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Inter’, sans-serif;
+min-height: 100vh;
+}
+
+/* HEADER */
+.site-header {
+background: linear-gradient(135deg, #0a0a0a 0%, #1a1200 50%, #0a0a0a 100%);
+border-bottom: 1px solid var(–gold-dim);
+padding: 20px 16px 0;
+text-align: center;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+.site-header h1 {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 2rem;
+letter-spacing: 3px;
+color: var(–gold);
+text-shadow: 0 0 30px rgba(245,197,24,0.3);
+}
+
+.site-header p {
+font-size: 0.7rem;
+color: var(–text-dim);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-top: 2px;
+}
+
+/* NAV TABS */
+.nav-tabs {
+display: flex;
+gap: 0;
+margin-top: 14px;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+flex-shrink: 0;
+padding: 10px 16px;
+font-size: 0.72rem;
+font-weight: 600;
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(–text-dim);
+cursor: pointer;
+border-bottom: 2px solid transparent;
+transition: all 0.2s;
+white-space: nowrap;
+}
+
+.nav-tab:hover { color: var(–text); }
+.nav-tab.active {
+color: var(–gold);
+border-bottom-color: var(–gold);
+}
+
+/* SECTIONS */
+.section { display: none; padding: 16px; max-width: 700px; margin: 0 auto; }
+.section.active { display: block; }
+
+/* CARDS */
+.card {
+background: var(–bg2);
+border: 1px solid var(–border);
+border-radius: 10px;
+margin-bottom: 12px;
+overflow: hidden;
+}
+
+.card-header {
+background: var(–bg3);
+padding: 10px 14px;
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: var(–text-dim);
+display: flex;
+align-items: center;
+gap: 8px;
+border-bottom: 1px solid var(–border);
+}
+
+.card-header .tag {
+background: var(–gold);
+color: #000;
+padding: 2px 7px;
+border-radius: 4px;
+font-size: 0.6rem;
+font-weight: 800;
+}
+
+.card-header .time-tag {
+background: var(–bg4);
+color: var(–text-dim);
+padding: 2px 7px;
+border-radius: 4px;
+font-size: 0.6rem;
+margin-left: auto;
+}
+
+/* MATCH ROW */
+.match-display {
+display: flex;
+align-items: center;
+padding: 12px 14px;
+gap: 8px;
+border-bottom: 1px solid var(–border);
+}
+
+.match-display:last-child { border-bottom: none; }
+
+.team-side {
+flex: 1;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.team-side.right {
+flex-direction: row-reverse;
+text-align: right;
+}
+
+.team-name {
+font-size: 0.8rem;
+font-weight: 600;
+}
+
+.score-box {
+display: flex;
+align-items: center;
+gap: 4px;
+flex-shrink: 0;
+}
+
+.score-num {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 1.3rem;
+font-weight: 600;
+width: 32px;
+text-align: center;
+background: var(–bg4);
+border-radius: 6px;
+padding: 4px 0;
+color: var(–gold);
+}
+
+.score-sep {
+color: var(–text-muted);
+font-size: 0.9rem;
+}
+
+/* PARTICIPANT PREDICTIONS TABLE */
+.pred-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.75rem;
+}
+
+.pred-table th {
+background: var(–bg3);
+padding: 8px 10px;
+text-align: left;
+font-size: 0.6rem;
+font-weight: 700;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–text-dim);
+border-bottom: 1px solid var(–border);
+}
+
+.pred-table td {
+padding: 9px 10px;
+border-bottom: 1px solid var(–border);
+vertical-align: middle;
+}
+
+.pred-table tr:last-child td { border-bottom: none; }
+
+.pred-table tr:hover td { background: var(–bg3); }
+
+.participant-name {
+font-weight: 700;
+font-size: 0.8rem;
+}
+
+.pred-score {
+font-family: ‘JetBrains Mono’, monospace;
+font-weight: 600;
+font-size: 0.8rem;
+color: var(–gold);
+}
+
+.pred-winner {
+font-size: 0.72rem;
+color: var(–text-dim);
+}
+
+/* RESULT BADGES */
+.badge {
+display: inline-block;
+padding: 2px 8px;
+border-radius: 20px;
+font-size: 0.6rem;
+font-weight: 700;
+letter-spacing: 1px;
+}
+
+.badge-gold { background: var(–gold); color: #000; }
+.badge-green { background: var(–green); color: #fff; }
+.badge-gray { background: var(–bg4); color: var(–text-dim); }
+.badge-red { background: #3a0000; color: var(–red); }
+
+/* LEADERBOARD */
+.lb-row {
+display: flex;
+align-items: center;
+padding: 12px 14px;
+border-bottom: 1px solid var(–border);
+gap: 12px;
+}
+
+.lb-row:last-child { border-bottom: none; }
+
+.lb-rank {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.6rem;
+color: var(–text-muted);
+width: 32px;
+text-align: center;
+flex-shrink: 0;
+}
+
+.lb-rank.gold { color: #F5C518; }
+.lb-rank.silver { color: #C0C0C0; }
+.lb-rank.bronze { color: #CD7F32; }
+
+.lb-name {
+flex: 1;
+font-weight: 700;
+font-size: 0.95rem;
+}
+
+.lb-pts {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 1.4rem;
+font-weight: 600;
+color: var(–gold);
+}
+
+.lb-pts-label {
+font-size: 0.6rem;
+color: var(–text-muted);
+text-align: right;
+}
+
+.lb-breakdown {
+font-size: 0.65rem;
+color: var(–text-dim);
+margin-top: 2px;
+}
+
+/* GROUP STAGE RESULTS */
+.group-card {
+background: var(–bg2);
+border: 1px solid var(–border);
+border-radius: 10px;
+margin-bottom: 12px;
+overflow: hidden;
+}
+
+.group-title {
+background: var(–bg3);
+padding: 10px 14px;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1rem;
+letter-spacing: 2px;
+color: var(–gold);
+border-bottom: 1px solid var(–border);
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.group-closed {
+font-size: 0.55rem;
+font-family: ‘Inter’, sans-serif;
+font-weight: 700;
+letter-spacing: 1px;
+background: var(–bg4);
+color: var(–text-muted);
+padding: 3px 8px;
+border-radius: 4px;
+}
+
+.group-table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.group-table th {
+padding: 6px 10px;
+text-align: left;
+font-size: 0.58rem;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–text-muted);
+border-bottom: 1px solid var(–border);
+}
+
+.group-table th:not(:first-child) { text-align: center; }
+
+.group-table td {
+padding: 9px 10px;
+font-size: 0.78rem;
+border-bottom: 1px solid var(–border);
+}
+
+.group-table tr:last-child td { border-bottom: none; }
+.group-table td:not(:first-child) { text-align: center; font-family: ‘JetBrains Mono’, monospace; }
+
+.pos-badge {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 20px;
+height: 20px;
+border-radius: 50%;
+font-size: 0.65rem;
+font-weight: 700;
+margin-right: 6px;
+}
+
+.pos-1, .pos-2 { background: var(–green); color: #fff; }
+.pos-3 { background: #1a3a6a; color: #60a5fa; }
+.pos-4 { background: var(–bg4); color: var(–text-muted); }
+
+.diff-pos { color: var(–green-bright); }
+.diff-neg { color: var(–red); }
+
+/* ADMIN RESULTS ENTRY */
+.results-form { padding: 14px; }
+
+.match-entry {
+background: var(–bg3);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 12px;
+margin-bottom: 10px;
+}
+
+.match-entry-title {
+font-size: 0.65rem;
+font-weight: 700;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+color: var(–text-dim);
+margin-bottom: 10px;
+display: flex;
+gap: 8px;
+align-items: center;
+}
+
+.score-inputs {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 8px;
+}
+
+.score-inputs label {
+flex: 1;
+font-size: 0.75rem;
+color: var(–text);
+display: flex;
+flex-direction: column;
+gap: 4px;
+}
+
+.score-inputs input {
+background: var(–bg4);
+border: 1px solid var(–border);
+border-radius: 6px;
+color: var(–gold);
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 1.1rem;
+font-weight: 600;
+padding: 8px;
+text-align: center;
+width: 100%;
+-moz-appearance: textfield;
+}
+
+.score-inputs input::-webkit-outer-spin-button,
+.score-inputs input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.score-inputs input:focus {
+outline: none;
+border-color: var(–gold);
+}
+
+.vs-sep { color: var(–text-muted); font-size: 0.8rem; margin-top: 18px; }
+
+.winner-select {
+width: 100%;
+background: var(–bg4);
+border: 1px solid var(–border);
+border-radius: 6px;
+color: var(–text);
+font-size: 0.78rem;
+padding: 8px 10px;
+margin-top: 4px;
+}
+
+.winner-select:focus { outline: none; border-color: var(–gold); }
+
+.save-btn {
+background: var(–gold);
+color: #000;
+border: none;
+border-radius: 8px;
+font-weight: 800;
+font-size: 0.8rem;
+letter-spacing: 1px;
+padding: 10px 20px;
+cursor: pointer;
+width: 100%;
+margin-top: 6px;
+text-transform: uppercase;
+}
+
+.save-btn:hover { background: #e6b800; }
+
+/* SECTION TITLES */
+.section-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 1.4rem;
+letter-spacing: 3px;
+color: var(–gold);
+margin-bottom: 4px;
+}
+
+.section-sub {
+font-size: 0.68rem;
+color: var(–text-dim);
+letter-spacing: 1px;
+text-transform: uppercase;
+margin-bottom: 16px;
+}
+
+/* PARTICIPANT FILTER */
+.participant-tabs {
+display: flex;
+gap: 6px;
+flex-wrap: wrap;
+margin-bottom: 16px;
+}
+
+.ptab {
+padding: 5px 12px;
+border-radius: 20px;
+font-size: 0.7rem;
+font-weight: 600;
+cursor: pointer;
+background: var(–bg3);
+border: 1px solid var(–border);
+color: var(–text-dim);
+transition: all 0.2s;
+}
+
+.ptab.active, .ptab:hover {
+background: var(–gold);
+color: #000;
+border-color: var(–gold);
+}
+
+/* POINTS CHIP */
+.pts-chip {
+font-family: ‘JetBrains Mono’, monospace;
+font-size: 0.7rem;
+font-weight: 700;
+padding: 2px 7px;
+border-radius: 4px;
+margin-left: 4px;
+}
+
+.pts-3 { background: #1a3a1a; color: var(–green-bright); }
+.pts-2 { background: #1a2a3a; color: #60a5fa; }
+.pts-1 { background: #2a2a1a; color: var(–gold); }
+.pts-0 { background: var(–bg4); color: var(–text-muted); }
+
+/* MATCH STATUS */
+.match-status {
+font-size: 0.6rem;
+font-weight: 700;
+letter-spacing: 1px;
+text-transform: uppercase;
+padding: 2px 7px;
+border-radius: 4px;
+}
+
+.status-live { background: #3a0000; color: var(–red); animation: pulse 1.5s infinite; }
+.status-done { background: var(–bg4); color: var(–text-muted); }
+.status-upcoming { background: #1a2a1a; color: var(–green-bright); }
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* SCORING LEGEND */
+.scoring-legend {
+background: var(–bg3);
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 12px 14px;
+margin-bottom: 16px;
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+}
+
+.legend-item {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 0.7rem;
+color: var(–text-dim);
+}
+
+/* NO RESULT YET */
+.no-result {
+font-size: 0.7rem;
+color: var(–text-muted);
+font-style: italic;
+padding: 8px 14px;
+text-align: center;
+}
+
+.r32-label {
+background: linear-gradient(135deg, var(–gold), #e6b800);
+color: #000;
+font-size: 0.6rem;
+font-weight: 900;
+padding: 2px 8px;
+border-radius: 4px;
+letter-spacing: 1px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="site-header">
+  <h1>🏆 WC26 · OKABIANS</h1>
+  <p>World Cup 2026 Prediction League</p>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showSection('leaderboard')">🏅 Leaderboard</div>
+    <div class="nav-tab" onclick="showSection('group-stage')">📊 Group Stage</div>
+    <div class="nav-tab" onclick="showSection('r32-preds')">🔮 R32 Picks</div>
+    <div class="nav-tab" onclick="showSection('r32-results')">⚽ R32 Results</div>
+    <div class="nav-tab" onclick="showSection('admin')">🔧 Admin</div>
+  </div>
+</div>
+
+<!-- ===================== LEADERBOARD ===================== -->
+
+<div id="leaderboard" class="section active">
+  <div class="section-title">Leaderboard</div>
+  <div class="section-sub">Updated after each match</div>
+
+  <div class="scoring-legend">
+    <div class="legend-item"><span class="pts-chip pts-3">+3</span> Correct score + winner</div>
+    <div class="legend-item"><span class="pts-chip pts-2">+2</span> Correct score only</div>
+    <div class="legend-item"><span class="pts-chip pts-1">+1</span> Correct winner only</div>
+    <div class="legend-item"><span class="pts-chip pts-0">+0</span> Both wrong</div>
+  </div>
+
+  <div class="card">
+    <div id="leaderboard-list"></div>
+  </div>
+</div>
+
+<!-- ===================== GROUP STAGE ===================== -->
+
+<div id="group-stage" class="section">
+  <div class="section-title">Group Stage</div>
+  <div class="section-sub">Final standings — closed for editing</div>
+
+  <div id="group-stage-content"></div>
+
+  <div class="section-title" style="margin-top:20px; font-size:1.1rem;">Participant Picks vs Results</div>
+  <div class="section-sub">Group stage predictions scored</div>
+  <div id="gs-predictions-content"></div>
+</div>
+
+<!-- ===================== R32 PICKS ===================== -->
+
+<div id="r32-preds" class="section">
+  <div class="section-title">Round of 32 Picks</div>
+  <div class="section-sub">Each participant's predictions</div>
+
+  <div class="participant-tabs" id="participant-tabs">
+    <div class="ptab active" onclick="filterParticipant('all', this)">All</div>
+    <div class="ptab" onclick="filterParticipant('Hooba', this)">Hooba</div>
+    <div class="ptab" onclick="filterParticipant('Bodz', this)">Bodz</div>
+    <div class="ptab" onclick="filterParticipant('Thoory', this)">Thoory</div>
+    <div class="ptab" onclick="filterParticipant('Hamada', this)">Hamada</div>
+    <div class="ptab" onclick="filterParticipant('Joe', this)">Joe</div>
+    <div class="ptab" onclick="filterParticipant('Omar', this)">Omar</div>
+  </div>
+
+  <div id="r32-picks-content"></div>
+</div>
+
+<!-- ===================== R32 RESULTS ===================== -->
+
+<div id="r32-results" class="section">
+  <div class="section-title">R32 Results</div>
+  <div class="section-sub">Actual match results</div>
+  <div id="r32-results-content"></div>
+</div>
+
+<!-- ===================== ADMIN ===================== -->
+
+<div id="admin" class="section">
+  <div class="section-title">Admin</div>
+  <div class="section-sub">Enter actual match results</div>
+  <div id="admin-content"></div>
+</div>
+
+<script>
+// ===================== DATA =====================
+
+const PARTICIPANTS = ['Hooba', 'Bodz', 'Thoory', 'Hamada', 'Joe', 'Omar'];
+
+const GROUP_RESULTS = {
+  A: [
+    { team: '🇲🇽 Mexico', p:3, w:3, d:0, l:0, gf:9, ga:3, diff:6, pts:9 },
+    { team: '🇿🇦 South Africa', p:3, w:1, d:1, l:1, gf:3, ga:4, diff:-1, pts:4 },
+    { team: '🇰🇷 South Korea', p:3, w:1, d:0, l:2, gf:3, ga:4, diff:-1, pts:3 },
+    { team: '🇨🇿 Czechia', p:3, w:0, d:1, l:2, gf:2, ga:6, diff:-4, pts:1 },
+  ],
+  B: [
+    { team: '🇨🇭 Switzerland', p:3, w:2, d:1, l:0, gf:7, ga:3, diff:4, pts:7 },
+    { team: '🇨🇦 Canada', p:3, w:1, d:1, l:1, gf:8, ga:3, diff:5, pts:4 },
+    { team: '🇧🇦 BiH', p:3, w:1, d:1, l:1, gf:3, ga:4, diff:-1, pts:4 },
+    { team: '🇶🇦 Qatar', p:3, w:0, d:1, l:2, gf:1, ga:9, diff:-8, pts:1 },
+  ],
+  C: [
+    { team: '🇧🇷 Brazil', p:3, w:2, d:1, l:0, gf:7, ga:1, diff:6, pts:7 },
+    { team: '🇲🇦 Morocco', p:3, w:2, d:1, l:0, gf:5, ga:2, diff:3, pts:7 },
+    { team: '🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland', p:3, w:1, d:0, l:2, gf:3, ga:6, diff:-3, pts:3 },
+    { team: '🇭🇹 Haiti', p:3, w:0, d:0, l:3, gf:1, ga:7, diff:-6, pts:0 },
+  ],
+  D: [
+    { team: '🇺🇸 USA', p:3, w:2, d:0, l:1, gf:6, ga:2, diff:4, pts:6 },
+    { team: '🇦🇺 Australia', p:3, w:1, d:1, l:1, gf:4, ga:4, diff:0, pts:4 },
+    { team: '🇵🇾 Paraguay', p:3, w:1, d:1, l:1, gf:3, ga:5, diff:-2, pts:4 },
+    { team: '🇹🇷 Türkiye', p:3, w:1, d:0, l:2, gf:3, ga:5, diff:-2, pts:3 },
+  ],
+  E: [
+    { team: '🇩🇪 Germany', p:3, w:2, d:0, l:1, gf:8, ga:2, diff:6, pts:6 },
+    { team: '🇨🇮 Côte d\'Ivoire', p:3, w:2, d:0, l:1, gf:5, ga:3, diff:2, pts:6 },
+    { team: '🇪🇨 Ecuador', p:3, w:1, d:1, l:1, gf:4, ga:4, diff:0, pts:4 },
+    { team: '🇨🇼 Curaçao', p:3, w:0, d:1, l:2, gf:1, ga:9, diff:-8, pts:1 },
+  ],
+  F: [
+    { team: '🇳🇱 Netherlands', p:3, w:2, d:1, l:0, gf:9, ga:3, diff:6, pts:7 },
+    { team: '🇯🇵 Japan', p:3, w:1, d:2, l:0, gf:6, ga:2, diff:4, pts:5 },
+    { team: '🇸🇪 Sweden', p:3, w:1, d:1, l:1, gf:4, ga:4, diff:0, pts:4 },
+    { team: '🇹🇳 Tunisia', p:3, w:0, d:0, l:3, gf:1, ga:11, diff:-10, pts:0 },
+  ],
+  G: [
+    { team: '🇧🇪 Belgium', p:3, w:1, d:2, l:0, gf:5, ga:1, diff:4, pts:5 },
+    { team: '🇪🇬 Egypt', p:3, w:1, d:2, l:0, gf:4, ga:2, diff:2, pts:5 },
+    { team: '🇮🇷 Iran', p:3, w:1, d:0, l:2, gf:3, ga:3, diff:0, pts:3 },
+    { team: '🇳🇿 New Zealand', p:3, w:0, d:0, l:3, gf:1, ga:7, diff:-6, pts:1 },
+  ],
+  H: [
+    { team: '🇪🇸 Spain', p:3, w:2, d:1, l:0, gf:7, ga:2, diff:5, pts:7 },
+    { team: '🇨🇻 Cabo Verde', p:3, w:1, d:0, l:2, gf:3, ga:3, diff:0, pts:3 },
+    { team: '🇺🇾 Uruguay', p:3, w:0, d:2, l:1, gf:2, ga:3, diff:-1, pts:2 },
+    { team: '🇸🇦 Saudi Arabia', p:3, w:0, d:1, l:2, gf:2, ga:6, diff:-4, pts:2 },
+  ],
+  I: [
+    { team: '🇫🇷 France', p:3, w:3, d:0, l:0, gf:11, ga:3, diff:8, pts:9 },
+    { team: '🇳🇴 Norway', p:3, w:2, d:0, l:1, gf:4, ga:3, diff:1, pts:6 },
+    { team: '🇸🇳 Senegal', p:3, w:1, d:0, l:2, gf:5, ga:3, diff:2, pts:3 },
+    { team: '🇮🇶 Iraq', p:3, w:0, d:0, l:3, gf:1, ga:12, diff:-11, pts:0 },
+  ],
+  J: [
+    { team: '🇦🇷 Argentina', p:3, w:3, d:0, l:0, gf:9, ga:2, diff:7, pts:9 },
+    { team: '🇦🇹 Austria', p:3, w:1, d:1, l:1, gf:4, ga:4, diff:0, pts:4 },
+    { team: '🇩🇿 Algeria', p:3, w:1, d:1, l:1, gf:3, ga:5, diff:-2, pts:4 },
+    { team: '🇯🇴 Jordan', p:3, w:0, d:0, l:3, gf:1, ga:6, diff:-5, pts:0 },
+  ],
+  K: [
+    { team: '🇨🇴 Colombia', p:3, w:2, d:1, l:0, gf:6, ga:3, diff:3, pts:7 },
+    { team: '🇵🇹 Portugal', p:3, w:1, d:2, l:0, gf:7, ga:2, diff:5, pts:5 },
+    { team: '🇨🇩 DR Congo', p:3, w:1, d:1, l:1, gf:4, ga:3, diff:1, pts:4 },
+    { team: '🇺🇿 Uzbekistan', p:3, w:0, d:0, l:3, gf:1, ga:10, diff:-9, pts:0 },
+  ],
+  L: [
+    { team: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 England', p:3, w:2, d:1, l:0, gf:7, ga:3, diff:4, pts:7 },
+    { team: '🇭🇷 Croatia', p:3, w:2, d:0, l:1, gf:5, ga:5, diff:0, pts:6 },
+    { team: '🇬🇭 Ghana', p:3, w:1, d:1, l:1, gf:4, ga:4, diff:0, pts:4 },
+    { team: '🇵🇦 Panama', p:3, w:0, d:0, l:3, gf:1, ga:5, diff:-4, pts:0 },
+  ],
+};
+
+const THIRDS_ADVANCED = ['🇨🇩 DR Congo','🇸🇪 Sweden','🇬🇭 Ghana','🇪🇨 Ecuador','🇧🇦 BiH','🇩🇿 Algeria','🇵🇾 Paraguay','🇸🇳 Senegal'];
+
+const R32_MATCHES = [
+  { id:'m1', round:'1/32', team1:'🇿🇦 South Africa', team2:'🇨🇦 Canada', time:'Jun 28, 10:00 PM' },
+  { id:'m2', round:'1/32', team1:'🇧🇷 Brazil', team2:'🇯🇵 Japan', time:'Jun 29, 8:00 PM' },
+  { id:'m3', round:'1/32', team1:'🇩🇪 Germany', team2:'🇵🇾 Paraguay', time:'Jun 29, 11:30 PM' },
+  { id:'m4', round:'1/32', team1:'🇳🇱 Netherlands', team2:'🇲🇦 Morocco', time:'Jun 30, 4:00 AM' },
+  { id:'m5', round:'1/32', team1:'🇨🇮 Côte d\'Ivoire', team2:'🇳🇴 Norway', time:'Jun 30, 8:00 PM' },
+  { id:'m6', round:'1/32', team1:'🇫🇷 France', team2:'🇸🇪 Sweden', time:'Jul 1, 12:00 AM' },
+  { id:'m7', round:'1/32', team1:'🇲🇽 Mexico', team2:'🇪🇨 Ecuador', time:'Jul 1, 4:00 AM' },
+  { id:'m8', round:'1/32', team1:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England', team2:'🇨🇩 DR Congo', time:'Jul 1, 7:00 PM' },
+  { id:'m9', round:'1/32', team1:'🇧🇪 Belgium', team2:'🇸🇳 Senegal', time:'Jul 1, 11:00 PM' },
+  { id:'m10', round:'1/32', team1:'🇺🇸 USA', team2:'🇧🇦 BiH', time:'Jul 2, 3:00 AM' },
+  { id:'m11', round:'1/32', team1:'🇪🇸 Spain', team2:'🇦🇹 Austria', time:'Jul 2, 10:00 PM' },
+  { id:'m12', round:'1/32', team1:'🇵🇹 Portugal', team2:'🇭🇷 Croatia', time:'Jul 3, 2:00 AM' },
+  { id:'m13', round:'1/32', team1:'🇨🇭 Switzerland', team2:'🇩🇿 Algeria', time:'Jul 3, 6:00 AM' },
+  { id:'m14', round:'1/32', team1:'🇦🇺 Australia', team2:'🇪🇬 Egypt', time:'Jul 3, 9:00 PM' },
+  { id:'m15', round:'1/32', team1:'🇦🇷 Argentina', team2:'🇨🇻 Cabo Verde', time:'Jul 4, 1:00 AM' },
+  { id:'m16', round:'1/32', team1:'🇨🇴 Colombia', team2:'🇬🇭 Ghana', time:'Jul 4, 4:30 AM' },
+];
+
+const R32_PREDICTIONS = {
+  Hooba: [
+    {g1:1,g2:2,w:'🇨🇦 Canada'},{g1:3,g2:1,w:'🇧🇷 Brazil'},{g1:2,g2:0,w:'🇩🇪 Germany'},
+    {g1:2,g2:1,w:'🇳🇱 Netherlands'},{g1:1,g2:2,w:'🇳🇴 Norway'},{g1:3,g2:0,w:'🇫🇷 France'},
+    {g1:3,g2:1,w:'🇲🇽 Mexico'},{g1:3,g2:1,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:3,w:'🇸🇳 Senegal'},
+    {g1:3,g2:1,w:'🇺🇸 USA'},{g1:3,g2:0,w:'🇪🇸 Spain'},{g1:3,g2:2,w:'🇵🇹 Portugal'},
+    {g1:2,g2:0,w:'🇨🇭 Switzerland'},{g1:1,g2:2,w:'🇪🇬 Egypt'},{g1:3,g2:0,w:'🇦🇷 Argentina'},
+    {g1:3,g2:1,w:'🇨🇴 Colombia'}
+  ],
+  Bodz: [
+    {g1:1,g2:1,w:'🇨🇦 Canada'},{g1:3,g2:1,w:'🇧🇷 Brazil'},{g1:2,g2:0,w:'🇩🇪 Germany'},
+    {g1:2,g2:2,w:'🇳🇱 Netherlands'},{g1:3,g2:1,w:'🇨🇮 Côte d\'Ivoire'},{g1:4,g2:1,w:'🇫🇷 France'},
+    {g1:2,g2:1,w:'🇲🇽 Mexico'},{g1:3,g2:0,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:2,w:'🇸🇳 Senegal'},
+    {g1:4,g2:1,w:'🇺🇸 USA'},{g1:3,g2:1,w:'🇪🇸 Spain'},{g1:2,g2:1,w:'🇵🇹 Portugal'},
+    {g1:2,g2:1,w:'🇨🇭 Switzerland'},{g1:1,g2:2,w:'🇪🇬 Egypt'},{g1:3,g2:0,w:'🇦🇷 Argentina'},
+    {g1:2,g2:1,w:'🇨🇴 Colombia'}
+  ],
+  Thoory: [
+    {g1:1,g2:2,w:'🇨🇦 Canada'},{g1:1,g2:0,w:'🇧🇷 Brazil'},{g1:3,g2:2,w:'🇩🇪 Germany'},
+    {g1:1,g2:1,w:'🇳🇱 Netherlands'},{g1:2,g2:3,w:'🇳🇴 Norway'},{g1:4,g2:1,w:'🇫🇷 France'},
+    {g1:2,g2:2,w:'🇲🇽 Mexico'},{g1:2,g2:0,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:1,w:'🇧🇪 Belgium'},
+    {g1:3,g2:1,w:'🇺🇸 USA'},{g1:2,g2:0,w:'🇪🇸 Spain'},{g1:2,g2:1,w:'🇵🇹 Portugal'},
+    {g1:2,g2:1,w:'🇨🇭 Switzerland'},{g1:1,g2:2,w:'🇪🇬 Egypt'},{g1:3,g2:0,w:'🇦🇷 Argentina'},
+    {g1:3,g2:1,w:'🇨🇴 Colombia'}
+  ],
+  Hamada: [
+    {g1:0,g2:2,w:'🇨🇦 Canada'},{g1:2,g2:1,w:'🇧🇷 Brazil'},{g1:3,g2:0,w:'🇩🇪 Germany'},
+    {g1:2,g2:1,w:'🇳🇱 Netherlands'},{g1:1,g2:2,w:'🇳🇴 Norway'},{g1:3,g2:0,w:'🇫🇷 France'},
+    {g1:2,g2:1,w:'🇲🇽 Mexico'},{g1:3,g2:0,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:2,w:'🇸🇳 Senegal'},
+    {g1:2,g2:0,w:'🇺🇸 USA'},{g1:3,g2:0,w:'🇪🇸 Spain'},{g1:1,g2:1,w:'🇵🇹 Portugal'},
+    {g1:1,g2:1,w:'🇩🇿 Algeria'},{g1:0,g2:0,w:'🇪🇬 Egypt'},{g1:2,g2:0,w:'🇦🇷 Argentina'},
+    {g1:2,g2:1,w:'🇨🇴 Colombia'}
+  ],
+  Joe: [
+    {g1:1,g2:2,w:'🇨🇦 Canada'},{g1:2,g2:2,w:'🇧🇷 Brazil'},{g1:5,g2:1,w:'🇩🇪 Germany'},
+    {g1:2,g2:3,w:'🇲🇦 Morocco'},{g1:1,g2:3,w:'🇳🇴 Norway'},{g1:4,g2:1,w:'🇫🇷 France'},
+    {g1:2,g2:0,w:'🇲🇽 Mexico'},{g1:1,g2:0,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:2,w:'🇸🇳 Senegal'},
+    {g1:3,g2:1,w:'🇺🇸 USA'},{g1:2,g2:2,w:'🇦🇹 Austria'},{g1:1,g2:1,w:'🇵🇹 Portugal'},
+    {g1:4,g2:2,w:'🇨🇭 Switzerland'},{g1:1,g2:1,w:'🇪🇬 Egypt'},{g1:2,g2:0,w:'🇦🇷 Argentina'},
+    {g1:2,g2:1,w:'🇨🇴 Colombia'}
+  ],
+  Omar: [
+    {g1:0,g2:2,w:'🇨🇦 Canada'},{g1:2,g2:2,w:'🇧🇷 Brazil'},{g1:4,g2:0,w:'🇩🇪 Germany'},
+    {g1:1,g2:2,w:'🇲🇦 Morocco'},{g1:2,g2:2,w:'🇳🇴 Norway'},{g1:3,g2:1,w:'🇫🇷 France'},
+    {g1:1,g2:2,w:'🇪🇨 Ecuador'},{g1:2,g2:1,w:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England'},{g1:1,g2:1,w:'🇸🇳 Senegal'},
+    {g1:2,g2:0,w:'🇺🇸 USA'},{g1:3,g2:1,w:'🇪🇸 Spain'},{g1:2,g2:1,w:'🇵🇹 Portugal'},
+    {g1:3,g2:1,w:'🇨🇭 Switzerland'},{g1:1,g2:2,w:'🇪🇬 Egypt'},{g1:2,g2:0,w:'🇦🇷 Argentina'},
+    {g1:2,g2:0,w:'🇨🇴 Colombia'}
+  ],
+};
+
+// Actual R32 results — fill in as matches complete
+let R32_ACTUAL = JSON.parse(localStorage.getItem('wc26_r32_actual') || 'null') || {
+  m1: null, m2:null, m3:null, m4:null, m5:null, m6:null, m7:null, m8:null,
+  m9:null, m10:null, m11:null, m12:null, m13:null, m14:null, m15:null, m16:null
+};
+
+function saveActual() {
+  localStorage.setItem('wc26_r32_actual', JSON.stringify(R32_ACTUAL));
+}
+
+// ===================== SCORING =====================
+
+function calcMatchPoints(pred, actual) {
+  if (!actual) return null;
+  const correctScore = pred.g1 === actual.g1 && pred.g2 === actual.g2;
+  const correctWinner = pred.w === actual.w;
+  if (correctScore && correctWinner) return 3;
+  if (correctScore) return 2;
+  if (correctWinner) return 1;
+  return 0;
+}
+
+function calcTotalPoints(participant) {
+  let total = 0;
+  R32_MATCHES.forEach((m, i) => {
+    const actual = R32_ACTUAL[m.id];
+    const pred = R32_PREDICTIONS[participant][i];
+    const pts = calcMatchPoints(pred, actual);
+    if (pts !== null) total += pts;
+  });
+  return total;
+}
+
+// ===================== NAVIGATION =====================
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const map = ['leaderboard','group-stage','r32-preds','r32-results','admin'];
+  tabs[map.indexOf(id)].classList.add('active');
+
+  if (id === 'leaderboard') renderLeaderboard();
+  if (id === 'group-stage') renderGroupStage();
+  if (id === 'r32-preds') renderR32Picks('all');
+  if (id === 'r32-results') renderR32Results();
+  if (id === 'admin') renderAdmin();
+}
+
+// ===================== LEADERBOARD =====================
+
+function renderLeaderboard() {
+  const scores = PARTICIPANTS.map(p => ({
+    name: p,
+    pts: calcTotalPoints(p),
+    breakdown: getBreakdown(p)
+  })).sort((a,b) => b.pts - a.pts);
+
+  const rankClasses = ['gold','silver','bronze','','',''];
+  const medals = ['🥇','🥈','🥉','4','5','6'];
+
+  let html = '';
+  scores.forEach((s, i) => {
+    html += `
+      <div class="lb-row">
+        <div class="lb-rank ${rankClasses[i]}">${medals[i]}</div>
+        <div>
+          <div class="lb-name">${s.name}</div>
+          <div class="lb-breakdown">${s.breakdown}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="lb-pts">${s.pts}</div>
+          <div class="lb-pts-label">pts</div>
+        </div>
+      </div>`;
+  });
+
+  document.getElementById('leaderboard-list').innerHTML = html;
+}
+
+function getBreakdown(participant) {
+  let threes=0, twos=0, ones=0;
+  R32_MATCHES.forEach((m,i) => {
+    const actual = R32_ACTUAL[m.id];
+    const pred = R32_PREDICTIONS[participant][i];
+    const pts = calcMatchPoints(pred, actual);
+    if (pts === 3) threes++;
+    else if (pts === 2) twos++;
+    else if (pts === 1) ones++;
+  });
+  const parts = [];
+  if (threes) parts.push(`${threes}× 🏆`);
+  if (twos) parts.push(`${twos}× ⚽`);
+  if (ones) parts.push(`${ones}× ✓`);
+  return parts.join('  ') || 'No results yet';
+}
+
+// ===================== GROUP STAGE =====================
+
+function renderGroupStage() {
+  let html = '';
+  Object.entries(GROUP_RESULTS).forEach(([grp, teams]) => {
+    html += `<div class="group-card">
+      <div class="group-title">
+        <span>Group ${grp}</span>
+        <span class="group-closed">CLOSED</span>
+      </div>
+      <table class="group-table">
+        <thead><tr>
+          <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>DIFF</th><th>PTS</th>
+        </tr></thead><tbody>`;
+    teams.forEach((t, i) => {
+      const pos = i + 1;
+      const diffStr = t.diff > 0 ? `<span class="diff-pos">+${t.diff}</span>` : t.diff < 0 ? `<span class="diff-neg">${t.diff}</span>` : '0';
+      const isThird = pos === 3;
+      const thirdAdvanced = isThird && THIRDS_ADVANCED.some(ta => ta === t.team);
+      html += `<tr>
+        <td>
+          <span class="pos-badge pos-${pos}">${pos}</span>
+          ${t.team}
+          ${thirdAdvanced ? '<span class="badge badge-green" style="margin-left:4px;font-size:0.5rem;">ADV</span>' : ''}
+        </td>
+        <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+        <td>${t.gf}</td><td>${t.ga}</td><td>${diffStr}</td>
+        <td><strong>${t.pts}</strong></td>
+      </tr>`;
+    });
+    html += `</tbody></table></div>`;
+  });
+  document.getElementById('group-stage-content').innerHTML = html;
+  document.getElementById('gs-predictions-content').innerHTML = '<div class="no-result">Group stage scoring coming soon</div>';
+}
+
+// ===================== R32 PICKS =====================
+
+let currentParticipant = 'all';
+
+function filterParticipant(name, el) {
+  currentParticipant = name;
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderR32Picks(name);
+}
+
+function renderR32Picks(participant) {
+  let html = '';
+
+  R32_MATCHES.forEach((m, i) => {
+    const actual = R32_ACTUAL[m.id];
+    html += `<div class="card">
+      <div class="card-header">
+        <span class="r32-label">${m.round}</span>
+        <span>${m.team1.split(' ').slice(1).join(' ')} vs ${m.team2.split(' ').slice(1).join(' ')}</span>
+        <span class="time-tag">${m.time}</span>
+      </div>`;
+
+    if (actual) {
+      html += `<div class="match-display" style="background:var(--bg3)">
+        <div class="team-side"><span>${m.team1}</span></div>
+        <div class="score-box">
+          <div class="score-num">${actual.g1}</div>
+          <div class="score-sep">–</div>
+          <div class="score-num">${actual.g2}</div>
+        </div>
+        <div class="team-side right"><span>${m.team2}</span></div>
+      </div>
+      <div style="padding:4px 14px 8px; font-size:0.65rem; color:var(--text-dim)">
+        ✅ Advances: <strong>${actual.w}</strong>
+      </div>`;
+    }
+
+    const showList = participant === 'all' ? PARTICIPANTS : [participant];
+    html += `<table class="pred-table"><thead><tr>
+      <th>Player</th><th>Score</th><th>Advances</th><th>Pts</th>
+    </tr></thead><tbody>`;
+
+    showList.forEach(p => {
+      const pred = R32_PREDICTIONS[p][i];
+      const pts = calcMatchPoints(pred, actual);
+      const ptsHtml = pts === null ? '<span class="pts-chip pts-0">–</span>'
+        : pts === 3 ? '<span class="pts-chip pts-3">+3</span>'
+        : pts === 2 ? '<span class="pts-chip pts-2">+2</span>'
+        : pts === 1 ? '<span class="pts-chip pts-1">+1</span>'
+        : '<span class="pts-chip pts-0">0</span>';
+
+      html += `<tr>
+        <td class="participant-name">${p}</td>
+        <td class="pred-score">${pred.g1} – ${pred.g2}</td>
+        <td class="pred-winner">${pred.w}</td>
+        <td>${ptsHtml}</td>
+      </tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+  });
+
+  document.getElementById('r32-picks-content').innerHTML = html;
+}
+
+// ===================== R32 RESULTS =====================
+
+function renderR32Results() {
+  let html = '';
+  R32_MATCHES.forEach(m => {
+    const actual = R32_ACTUAL[m.id];
+    html += `<div class="card">
+      <div class="card-header">
+        <span class="r32-label">${m.round}</span>
+        <span>${m.time}</span>
+        <span class="match-status ${actual ? 'status-done' : 'status-upcoming'}">${actual ? 'FT' : 'Upcoming'}</span>
+      </div>
+      <div class="match-display">
+        <div class="team-side"><span>${m.team1}</span></div>
+        <div class="score-box">
+          <div class="score-num">${actual ? actual.g1 : '?'}</div>
+          <div class="score-sep">–</div>
+          <div class="score-num">${actual ? actual.g2 : '?'}</div>
+        </div>
+        <div class="team-side right"><span>${m.team2}</span></div>
+      </div>
+      ${actual ? `<div style="padding:4px 14px 8px; font-size:0.65rem; color:var(--text-dim)">✅ Advances: <strong>${actual.w}</strong></div>` : '<div class="no-result">Not played yet</div>'}
+    </div>`;
+  });
+  document.getElementById('r32-results-content').innerHTML = html;
+}
+
+// ===================== ADMIN =====================
+
+function renderAdmin() {
+  let html = '';
+  R32_MATCHES.forEach(m => {
+    const actual = R32_ACTUAL[m.id];
+    html += `<div class="match-entry">
+      <div class="match-entry-title">
+        <span class="r32-label">${m.round}</span>
+        <span>${m.time}</span>
+      </div>
+      <div style="font-size:0.8rem; margin-bottom:8px; color:var(--text-dim)">${m.team1} vs ${m.team2}</div>
+      <div class="score-inputs">
+        <label>${m.team1}
+          <input type="number" min="0" max="20" id="g1_${m.id}" value="${actual ? actual.g1 : ''}" placeholder="0">
+        </label>
+        <span class="vs-sep">–</span>
+        <label>${m.team2}
+          <input type="number" min="0" max="20" id="g2_${m.id}" value="${actual ? actual.g2 : ''}" placeholder="0">
+        </label>
+      </div>
+      <div style="margin-top:6px; font-size:0.72rem; color:var(--text-dim); margin-bottom:4px">Who advances?</div>
+      <select class="winner-select" id="w_${m.id}">
+        <option value="">— Select —</option>
+        <option value="${m.team1}" ${actual && actual.w === m.team1 ? 'selected' : ''}>${m.team1}</option>
+        <option value="${m.team2}" ${actual && actual.w === m.team2 ? 'selected' : ''}>${m.team2}</option>
+      </select>
+      <button class="save-btn" onclick="saveResult('${m.id}', '${m.team1.replace(/'/g,"\\'")}', '${m.team2.replace(/'/g,"\\'")}')">Save Result</button>
+    </div>`;
+  });
+  document.getElementById('admin-content').innerHTML = html;
+}
+
+function saveResult(id, team1, team2) {
+  const g1 = parseInt(document.getElementById('g1_' + id).value);
+  const g2 = parseInt(document.getElementById('g2_' + id).value);
+  const w = document.getElementById('w_' + id).value;
+
+  if (isNaN(g1) || isNaN(g2) || !w) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  R32_ACTUAL[id] = { g1, g2, w };
+  saveActual();
+
+  const btn = document.querySelector(`[onclick="saveResult('${id}', '${team1.replace(/'/g,"\\'")}', '${team2.replace(/'/g,"\\'")}')"]`);
+  if (btn) { btn.textContent = '✅ Saved!'; setTimeout(() => btn.textContent = 'Save Result', 2000); }
+}
+
+// ===================== INIT =====================
+renderLeaderboard();
+</script>
+
+</body>
+</html>
