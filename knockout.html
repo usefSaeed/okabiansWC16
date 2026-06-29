@@ -275,12 +275,12 @@ const db = getDatabase(app);
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 const PARTICIPANTS = [
-  { id: 'omar',   name: 'Omar',   emoji: '🦁', color: '#e84393' },
-  { id: 'hooba',  name: 'Hooba',  emoji: '🦊', color: '#00c853' },
-  { id: 'joe',    name: 'Joe',    emoji: '🦅', color: '#29b6f6' },
-  { id: 'hamada', name: 'Hamada', emoji: '🐯', color: '#ff9800' },
-  { id: 'thoory', name: 'Thoory', emoji: '🐍', color: '#ab47bc' },
-  { id: 'bodz',   name: 'Bodz',   emoji: '🐗', color: '#7c6df0' },
+  { id: 'omar',   name: 'Omar',   emoji: '🦁', color: '#e84393', groupPts: 30 },
+  { id: 'hooba',  name: 'Hooba',  emoji: '🦊', color: '#00c853', groupPts: 27 },
+  { id: 'joe',    name: 'Joe',    emoji: '🦅', color: '#29b6f6', groupPts: 25 },
+  { id: 'hamada', name: 'Hamada', emoji: '🐯', color: '#ff9800', groupPts: 24 },
+  { id: 'thoory', name: 'Thoory', emoji: '🐍', color: '#ab47bc', groupPts: 24 },
+  { id: 'bodz',   name: 'Bodz',   emoji: '🐗', color: '#7c6df0', groupPts: 21 },
 ];
 
 const MATCHES = [
@@ -383,6 +383,8 @@ async function saveActual(mid, g1, g2, winner) {
 
 // ─── SCORING ─────────────────────────────────────────────────────────────────
 function calcPoints(pid) {
+  const p = PARTICIPANTS.find(x => x.id === pid);
+  const groupPts = p?.groupPts || 0;
   let goals = 0, winner = 0;
   const preds = PREDICTIONS[pid] || [];
   for (const pred of preds) {
@@ -393,7 +395,8 @@ function calcPoints(pid) {
     if (goalsCorrect) goals += 2;
     if (winnerCorrect) winner += 1;
   }
-  return { goals, winner, total: goals + winner };
+  const knockoutPts = goals + winner;
+  return { goals, winner, knockoutPts, groupPts, total: groupPts + knockoutPts };
 }
 
 function calcMatchPoints(pid, mid) {
