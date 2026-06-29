@@ -1,461 +1,528 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Family WC Qualifier</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Family WC 2026</title>
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #f9fafb; color: #111; }
-  button { font-family: inherit; }
-  select { font-family: inherit; }
-  ::-webkit-scrollbar { height: 6px; width: 6px; }
-  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 999px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#0d0d0f;color:#f0f0f0;min-height:100vh;}
+button,select{font-family:inherit;}
+::-webkit-scrollbar{height:5px;width:5px;}
+::-webkit-scrollbar-thumb{background:#2a2a2e;border-radius:99px;}
 
-.header { background: #111; color: #fff; padding: 20px 24px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
-.header-inner { max-width: 900px; margin: 0 auto; }
-.header-title-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.header-title { font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
-.header-sub { font-size: 12px; color: #9ca3af; }
-.tabs { display: flex; gap: 2px; overflow-x: auto; }
-.tab-btn { padding: 10px 16px; border-radius: 8px 8px 0 0; border: none; background: transparent; color: #9ca3af; font-weight: 500; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all .15s; }
-.tab-btn.active { background: #f9fafb; color: #111; font-weight: 700; }
+/* HEADER */
+.hdr{background:#0d0d0f;border-bottom:1px solid #1e1e24;position:sticky;top:0;z-index:200;padding:14px 16px 0;}
+.hdr-inner{max-width:960px;margin:0 auto;}
+.hdr-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.hdr-title{font-size:17px;font-weight:800;letter-spacing:-0.3px;}
+.hdr-sub{font-size:11px;color:#555;}
+.tabs{display:flex;gap:0;overflow-x:auto;padding-bottom:0;}
+.tab{padding:9px 14px;background:transparent;border:none;color:#555;font-size:12px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;letter-spacing:.3px;text-transform:uppercase;}
+.tab.active{color:#f0f0f0;border-bottom-color:#e8ff47;}
+.statusbar{max-width:960px;margin:0 auto;padding:5px 16px;font-size:11px;color:#444;display:flex;align-items:center;gap:5px;}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot.live{background:#22c55e;}
+.dot.off{background:#f97316;}
+.dot.err{background:#ef4444;}
 
-.content { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
-.section-title { font-weight: 800; font-size: 20px; color: #111; margin: 0 0 4px; }
-.section-sub { color: #6b7280; font-size: 13px; margin: 0 0 20px; }
+/* CONTENT */
+.content{max-width:960px;margin:0 auto;padding:20px 16px 80px;}
+.pg-title{font-size:22px;font-weight:800;color:#f0f0f0;margin-bottom:3px;letter-spacing:-0.5px;}
+.pg-sub{font-size:12px;color:#555;margin-bottom:22px;}
 
-.card { background: #fff; border-radius: 14px; padding: 16px 18px; border: 1px solid #e5e7eb; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+/* CARDS */
+.card{background:#111115;border:1px solid #1e1e24;border-radius:12px;padding:16px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;}
 
-.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; border: 1px solid; }
-.badge.correct { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
-.badge.wrong { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
-.badge.pending { background: #f3f4f6; color: #6b7280; border-color: #d1d5db; }
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;white-space:nowrap;}
+.badge.correct{background:#052e16;color:#4ade80;border:1px solid #166534;}
+.badge.wrong{background:#2d0a0a;color:#f87171;border:1px solid #7f1d1d;}
+.badge.pending{background:#1a1a20;color:#555;border:1px solid #2a2a30;}
 
-.group-label { background: #111; color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
-.pos-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
-.pos-row.bordered { border-bottom: 1px solid #f3f4f6; }
-.medal { width: 24px; font-size: 16px; text-align: center; flex-shrink: 0; }
+/* LEADERBOARD */
+.lb-row{background:#111115;border:1px solid #1e1e24;border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:border-color .2s;}
+.lb-rank{width:34px;text-align:center;flex-shrink:0;}
+.lb-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;}
+.lb-bar{margin-top:5px;height:4px;background:#1e1e24;border-radius:99px;overflow:hidden;}
+.lb-fill{height:100%;border-radius:99px;transition:width .8s ease;}
 
-.leader-row { background: #fff; border-radius: 16px; padding: 18px 22px; border: 1px solid #e5e7eb; box-shadow: 0 1px 4px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-.leader-rank { width: 36px; text-align: center; line-height: 1; flex-shrink: 0; }
-.avatar { border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.progress-track { margin-top: 6px; height: 6px; border-radius: 999px; background: #f3f4f6; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+/* GROUP LABEL */
+.glabel{background:#e8ff47;color:#0d0d0f;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:800;letter-spacing:.5px;}
+.glabel-dark{background:#1e1e24;color:#888;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700;}
 
-.predictor-tab { padding: 8px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 2px solid #e5e7eb; background: #fff; color: #374151; cursor: pointer; }
-.predictor-tab.active { background-color: var(–c18); border-color: var(–c); color: var(–c); }
+/* MATCH CARD */
+.match-card{background:#111115;border:1px solid #1e1e24;border-radius:12px;overflow:hidden;}
+.match-header{background:#161619;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e1e24;}
+.match-tag{font-size:10px;font-weight:700;color:#e8ff47;letter-spacing:.5px;text-transform:uppercase;}
+.match-time{font-size:10px;color:#444;}
+.match-body{padding:14px;}
+.match-team-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;}
+.match-team-name{font-size:13px;font-weight:600;flex:1;}
+.match-score{font-size:20px;font-weight:800;width:28px;text-align:center;color:#e8ff47;}
+.match-score.pending-score{color:#333;}
+.match-vs{text-align:center;font-size:10px;color:#333;padding:3px 0;font-weight:700;letter-spacing:1px;}
+.advance-pill{margin-top:10px;padding:7px 10px;background:#0d1f0d;border-radius:8px;border:1px solid #166534;font-size:12px;font-weight:700;color:#4ade80;display:flex;align-items:center;gap:6px;}
+.advance-pill.pending-adv{background:#161619;border-color:#1e1e24;color:#444;}
 
-.third-pill { padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; border: 2px solid #d1d5db; background: #f9fafb; color: #374151; cursor: pointer; }
-.third-pill.selected { border-color: #10b981; background: #d1fae5; color: #065f46; }
+/* PREDICT TABS */
+.ptab{padding:7px 14px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid #1e1e24;background:#111115;color:#666;cursor:pointer;transition:all .15s;}
+.ptab.active{border-color:var(--pc);color:var(--pc);background:var(--pcbg);}
 
-select.result-select { flex: 1; padding: 6px 10px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 13px; background: #f9fafb; cursor: pointer; outline: none; }
+/* EDIT SELECT */
+select.eselect{width:100%;padding:7px 10px;border-radius:8px;border:1px solid #2a2a30;background:#0d0d0f;color:#f0f0f0;font-size:13px;cursor:pointer;outline:none;appearance:none;}
+select.eselect:focus{border-color:#e8ff47;}
+input.escore{width:52px;padding:6px 8px;border-radius:8px;border:1px solid #2a2a30;background:#0d0d0f;color:#e8ff47;font-size:15px;font-weight:800;text-align:center;outline:none;}
+input.escore:focus{border-color:#e8ff47;}
 
-.status-bar { max-width: 900px; margin: 0 auto; padding: 6px 16px 0; font-size: 12px; color: #9ca3af; display: flex; align-items: center; gap: 6px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.dot.live { background: #10b981; }
-.dot.off { background: #f97316; }
-.dot.err { background: #ef4444; }
+/* SECTION DIVIDER */
+.sec-divider{display:flex;align-items:center;gap:10px;margin:24px 0 16px;}
+.sec-divider-line{flex:1;height:1px;background:#1e1e24;}
+.sec-divider-label{font-size:11px;font-weight:700;color:#444;letter-spacing:1px;text-transform:uppercase;}
 
-.summary-banner { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding: 20px 24px; background: #fff; border-radius: 16px; border: 1px solid #e5e7eb; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+/* SUMMARY BANNER */
+.sum-banner{background:#111115;border:1px solid #1e1e24;border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:16px;margin-bottom:22px;}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  .hdr-title{font-size:15px;}
+  .tab{font-size:11px;padding:8px 10px;}
+  .pg-title{font-size:18px;}
+  .lb-row{padding:12px 14px;}
+}
 </style>
-
 </head>
 <body>
-
-<div class="header">
-  <div class="header-inner">
-    <div class="header-title-row">
-      <span style="font-size:28px;">⚽</span>
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-top">
+      <span style="font-size:26px;">⚽</span>
       <div>
-        <div class="header-title">Family WC Qualifier</div>
-        <div class="header-sub">2026 World Cup Qualifying Phase</div>
+        <div class="hdr-title">Family WC Qualifier</div>
+        <div class="hdr-sub">2026 World Cup · Group Stage Complete</div>
       </div>
     </div>
     <div class="tabs" id="tabs"></div>
   </div>
 </div>
-<div class="status-bar" id="statusBar"><span class="dot off"></span> connecting…</div>
+<div class="statusbar" id="statusbar"><span class="dot off"></span> connecting…</div>
 <div class="content" id="content"></div>
 
-<!-- Firebase (compat SDK = simplest, no build step needed) -->
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
 <script>
-// ─────────────────────────────────────────────────────────────────────────
-// FIREBASE SETUP
-// ─────────────────────────────────────────────────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyDJl7_QzXen3L2KGK38asu1ISiVyHc2bXU",
-  authDomain: "okabians-wc26.firebaseapp.com",
-  databaseURL: "https://okabians-wc26-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "okabians-wc26",
-  storageBucket: "okabians-wc26.firebasestorage.app",
-  messagingSenderId: "251040794708",
-  appId: "1:251040794708:web:a74ac6de9b027da21685c1",
-  measurementId: "G-JQ62PDFXVG"
-};
-firebase.initializeApp(firebaseConfig);
+// ── FIREBASE ──────────────────────────────────────────────────────────────
+firebase.initializeApp({
+  apiKey:"AIzaSyDJl7_QzXen3L2KGK38asu1ISiVyHc2bXU",
+  authDomain:"okabians-wc26.firebaseapp.com",
+  databaseURL:"https://okabians-wc26-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"okabians-wc26",
+  storageBucket:"okabians-wc26.firebasestorage.app",
+  messagingSenderId:"251040794708",
+  appId:"1:251040794708:web:a74ac6de9b027da21685c1"
+});
 const db = firebase.database();
-const resultsRef = db.ref("wc26/results");
-const bestThirdsRef = db.ref("wc26/bestThirds");
+const R = p => db.ref(p);
 
-// ─────────────────────────────────────────────────────────────────────────
-// STATIC DATA
-// ─────────────────────────────────────────────────────────────────────────
+// ── STATIC: GROUP STAGE ───────────────────────────────────────────────────
 const GROUPS = {
-  A: ["🇲🇽 Mexico", "🇰🇷 South Korea", "🇨🇿 Czechia", "🇿🇦 South Africa"],
-  B: ["🇨🇦 Canada", "🇧🇦 Bosnia & Herzegovina", "🇶🇦 Qatar", "🇨🇭 Switzerland"],
-  C: ["🇧🇷 Brazil", "🇲🇦 Morocco", "🇭🇹 Haiti", "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"],
-  D: ["🇺🇸 USA", "🇵🇾 Paraguay", "🇦🇺 Australia", "🇹🇷 Türkiye"],
-  E: ["🇩🇪 Germany", "🇨🇼 Curaçao", "🇨🇮 Côte d'Ivoire", "🇪🇨 Ecuador"],
-  F: ["🇳🇱 Netherlands", "🇯🇵 Japan", "🇸🇪 Sweden", "🇹🇳 Tunisia"],
-  G: ["🇧🇪 Belgium", "🇪🇬 Egypt", "🇮🇷 Iran", "🇳🇿 New Zealand"],
-  H: ["🇪🇸 Spain", "🇨🇻 Cabo Verde", "🇸🇦 Saudi Arabia", "🇺🇾 Uruguay"],
-  I: ["🇫🇷 France", "🇸🇳 Senegal", "🇮🇶 Iraq", "🇳🇴 Norway"],
-  J: ["🇦🇷 Argentina", "🇩🇿 Algeria", "🇦🇹 Austria", "🇯🇴 Jordan"],
-  K: ["🇵🇹 Portugal", "🇨🇩 DR Congo", "🇺🇿 Uzbekistan", "🇨🇴 Colombia"],
-  L: ["🏴󠁧󠁢󠁥󠁮󠁧󠁿 England", "🇭🇷 Croatia", "🇬🇭 Ghana", "🇵🇦 Panama"],
+  A:["🇲🇽 Mexico","🇰🇷 South Korea","🇨🇿 Czechia","🇿🇦 South Africa"],
+  B:["🇨🇦 Canada","🇧🇦 Bosnia & Herzegovina","🇶🇦 Qatar","🇨🇭 Switzerland"],
+  C:["🇧🇷 Brazil","🇲🇦 Morocco","🇭🇹 Haiti","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"],
+  D:["🇺🇸 USA","🇵🇾 Paraguay","🇦🇺 Australia","🇹🇷 Türkiye"],
+  E:["🇩🇪 Germany","🇨🇼 Curaçao","🇨🇮 Côte d'Ivoire","🇪🇨 Ecuador"],
+  F:["🇳🇱 Netherlands","🇯🇵 Japan","🇸🇪 Sweden","🇹🇳 Tunisia"],
+  G:["🇧🇪 Belgium","🇪🇬 Egypt","🇮🇷 Iran","🇳🇿 New Zealand"],
+  H:["🇪🇸 Spain","🇨🇻 Cabo Verde","🇸🇦 Saudi Arabia","🇺🇾 Uruguay"],
+  I:["🇫🇷 France","🇸🇳 Senegal","🇮🇶 Iraq","🇳🇴 Norway"],
+  J:["🇦🇷 Argentina","🇩🇿 Algeria","🇦🇹 Austria","🇯🇴 Jordan"],
+  K:["🇵🇹 Portugal","🇨🇩 DR Congo","🇺🇿 Uzbekistan","🇨🇴 Colombia"],
+  L:["🏴󠁧󠁢󠁥󠁮󠁧󠁿 England","🇭🇷 Croatia","🇬🇭 Ghana","🇵🇦 Panama"],
 };
+const GS_RESULTS = {
+  A:{first:"🇲🇽 Mexico",second:"🇿🇦 South Africa",third:"🇰🇷 South Korea"},
+  B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"},
+  C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},
+  D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"},
+  E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},
+  F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},
+  G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},
+  H:{first:"🇪🇸 Spain",second:"🇨🇻 Cabo Verde",third:"🇺🇾 Uruguay"},
+  I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"},
+  J:{first:"🇦🇷 Argentina",second:"🇦🇹 Austria",third:"🇩🇿 Algeria"},
+  K:{first:"🇨🇴 Colombia",second:"🇵🇹 Portugal",third:"🇨🇩 DR Congo"},
+  L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"},
+};
+const GS_BEST_THIRDS = ["🇨🇩 DR Congo","🇸🇪 Sweden","🇬🇭 Ghana","🇪🇨 Ecuador","🇧🇦 Bosnia & Herzegovina","🇩🇿 Algeria","🇵🇾 Paraguay","🇸🇳 Senegal"];
 
-const PREDICTORS = [
-  { name: "Omar", email: "omar.th.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇿🇦 South Africa"}, B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"}, C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇹🇷 Türkiye",second:"🇺🇸 USA",third:"🇦🇺 Australia"}, E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"}, F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"}, G:{first:"🇪🇬 Egypt",second:"🇧🇪 Belgium",third:"🇮🇷 Iran"}, H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇨🇻 Cabo Verde"}, I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"}, J:{first:"🇦🇷 Argentina",second:"🇦🇹 Austria",third:"🇩🇿 Algeria"}, K:{first:"🇯🇴 Jordan",second:"🇵🇹 Portugal",third:"🇺🇿 Uzbekistan"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🇧🇦 Bosnia & Herzegovina","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇦🇺 Australia","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇳 Senegal","🇩🇿 Algeria","🇬🇭 Ghana"] },
-  { name: "Hamada", email: "ah.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"}, B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"}, C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇵🇾 Paraguay",second:"🇺🇸 USA",third:"🇹🇷 Türkiye"}, E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"}, F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"}, G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"}, H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"}, I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"}, J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"}, K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇨🇩 DR Congo"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🇨🇿 Czechia","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇹🇷 Türkiye","🇪🇨 Ecuador","🇯🇵 Japan","🇳🇴 Norway","🇦🇹 Austria","🇨🇩 DR Congo"] },
-  { name: "Hooba", email: "ehab.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"}, B:{first:"🇶🇦 Qatar",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇦 Canada"}, C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"}, E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"}, F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"}, G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"}, H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"}, I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"}, J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"}, K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🇧🇦 Bosnia & Herzegovina","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇮🇷 Iran","🇸🇳 Senegal","🇦🇹 Austria","🇺🇿 Uzbekistan","🇬🇭 Ghana"] },
-  { name: "Bodz", email: "a.rahman.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"}, B:{first:"🇨🇦 Canada",second:"🇨🇭 Switzerland",third:"🇶🇦 Qatar"}, C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"}, E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"}, F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"}, G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"}, H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"}, I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"}, J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇯🇴 Jordan"}, K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🇨🇿 Czechia","🇶🇦 Qatar","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇪🇨 Ecuador","🇯🇵 Japan","🇸🇦 Saudi Arabia","🇯🇴 Jordan","🇬🇭 Ghana"] },
-  { name: "Joe", email: "youssef.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"}, B:{first:"🇧🇦 Bosnia & Herzegovina",second:"🇨🇦 Canada",third:"🇶🇦 Qatar"}, C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇺🇸 USA",second:"🇵🇾 Paraguay",third:"🇦🇺 Australia"}, E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"}, F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"}, G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇳🇿 New Zealand"}, H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"}, I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"}, J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"}, K:{first:"🇵🇹 Portugal",second:"🇨🇩 DR Congo",third:"🇨🇴 Colombia"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇵🇾 Paraguay","🇪🇨 Ecuador","🇸🇪 Sweden","🇺🇾 Uruguay","🇳🇴 Norway","🇦🇹 Austria","🇨🇴 Colombia"] },
-  { name: "Thoory", email: "tharwat.okab@gmail.com",
-    groups: { A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"}, B:{first:"🇨🇦 Canada",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇭 Switzerland"}, C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"}, D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇹🇷 Türkiye"}, E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"}, F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"}, G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"}, H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"}, I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"}, J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"}, K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"}, L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"} },
-    bestThirds: ["🇨🇭 Switzerland","🇹🇷 Türkiye","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇦 Saudi Arabia","🇸🇳 Senegal","🇺🇿 Uzbekistan","🇬🇭 Ghana"] },
+// ── STATIC: R32 MATCHES ───────────────────────────────────────────────────
+// Format: {id, tag, date, teamA, teamB}
+const R32 = [
+  {id:"r32_01",tag:"1/32",date:"Jul 1 · 18:00",teamA:"🇿🇦 South Africa",teamB:"🇨🇦 Canada"},
+  {id:"r32_02",tag:"1/32",date:"Jul 1 · 21:00",teamA:"🇧🇷 Brazil",teamB:"🇯🇵 Japan"},
+  {id:"r32_03",tag:"1/32",date:"Jul 2 · 18:00",teamA:"🇩🇪 Germany",teamB:"🇵🇾 Paraguay"},
+  {id:"r32_04",tag:"1/32",date:"Jul 2 · 21:00",teamA:"🇳🇱 Netherlands",teamB:"🇲🇦 Morocco"},
+  {id:"r32_05",tag:"1/32",date:"Jul 3 · 18:00",teamA:"🇨🇮 Côte d'Ivoire",teamB:"🇳🇴 Norway"},
+  {id:"r32_06",tag:"1/32",date:"Jul 3 · 21:00",teamA:"🇫🇷 France",teamB:"🇸🇪 Sweden"},
+  {id:"r32_07",tag:"1/32",date:"Jul 4 · 18:00",teamA:"🇲🇽 Mexico",teamB:"🇪🇨 Ecuador"},
+  {id:"r32_08",tag:"1/32",date:"Jul 4 · 21:00",teamA:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",teamB:"🇨🇩 DR Congo"},
+  {id:"r32_09",tag:"1/32",date:"Jul 5 · 18:00",teamA:"🇧🇪 Belgium",teamB:"🇸🇳 Senegal"},
+  {id:"r32_10",tag:"1/32",date:"Jul 5 · 21:00",teamA:"🇺🇸 USA",teamB:"🇧🇦 Bosnia & Herzegovina"},
+  {id:"r32_11",tag:"1/32",date:"Jul 6 · 18:00",teamA:"🇪🇸 Spain",teamB:"🇦🇹 Austria"},
+  {id:"r32_12",tag:"1/32",date:"Jul 6 · 21:00",teamA:"🇵🇹 Portugal",teamB:"🇭🇷 Croatia"},
+  {id:"r32_13",tag:"1/32",date:"Jul 7 · 18:00",teamA:"🇨🇭 Switzerland",teamB:"🇩🇿 Algeria"},
+  {id:"r32_14",tag:"1/32",date:"Jul 7 · 21:00",teamA:"🇦🇺 Australia",teamB:"🇪🇬 Egypt"},
+  {id:"r32_15",tag:"1/32",date:"Jul 8 · 18:00",teamA:"🇦🇷 Argentina",teamB:"🇨🇻 Cabo Verde"},
+  {id:"r32_16",tag:"1/32",date:"Jul 8 · 21:00",teamA:"🇨🇴 Colombia",teamB:"🇬🇭 Ghana"},
 ];
 
-const AVATARS = ["🦁","🐯","🦊","🐺","🦅","🐉"];
-const AVATAR_COLORS = ["#e84393","#f97316","#10b981","#6366f1","#0ea5e9","#a855f7"];
-const MEDAL = { first:"🥇", second:"🥈", third:"🥉" };
+// ── STATIC: PREDICTORS ───────────────────────────────────────────────────
+const PREDICTORS = [
+  {name:"Omar",  color:"#e84393",avatar:"🦁",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇿🇦 South Africa"},B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"},C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇹🇷 Türkiye",second:"🇺🇸 USA",third:"🇦🇺 Australia"},E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"},F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},G:{first:"🇪🇬 Egypt",second:"🇧🇪 Belgium",third:"🇮🇷 Iran"},H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇨🇻 Cabo Verde"},I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"},J:{first:"🇦🇷 Argentina",second:"🇦🇹 Austria",third:"🇩🇿 Algeria"},K:{first:"🇯🇴 Jordan",second:"🇵🇹 Portugal",third:"🇺🇿 Uzbekistan"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🇧🇦 Bosnia & Herzegovina","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇦🇺 Australia","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇳 Senegal","🇩🇿 Algeria","🇬🇭 Ghana"],
+   r32:{r32_01:{goalsA:0,goalsB:2,advance:"🇨🇦 Canada"},r32_02:{goalsA:2,goalsB:2,advance:"🇧🇷 Brazil"},r32_03:{goalsA:4,goalsB:0,advance:"🇩🇪 Germany"},r32_04:{goalsA:1,goalsB:2,advance:"🇲🇦 Morocco"},r32_05:{goalsA:2,goalsB:2,advance:"🇳🇴 Norway"},r32_06:{goalsA:3,goalsB:1,advance:"🇫🇷 France"},r32_07:{goalsA:1,goalsB:2,advance:"🇪🇨 Ecuador"},r32_08:{goalsA:2,goalsB:1,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:1,advance:"🇸🇳 Senegal"},r32_10:{goalsA:2,goalsB:0,advance:"🇺🇸 USA"},r32_11:{goalsA:3,goalsB:1,advance:"🇪🇸 Spain"},r32_12:{goalsA:2,goalsB:1,advance:"🇵🇹 Portugal"},r32_13:{goalsA:3,goalsB:1,advance:"🇨🇭 Switzerland"},r32_14:{goalsA:1,goalsB:2,advance:"🇪🇬 Egypt"},r32_15:{goalsA:2,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:2,goalsB:0,advance:"🇨🇴 Colombia"}}},
 
-function emptyResults() {
-  const r = {};
-  Object.keys(GROUPS).forEach(g => r[g] = { first:"", second:"", third:"" });
-  return r;
-}
+  {name:"Hamada",color:"#f97316",avatar:"🐯",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},B:{first:"🇨🇭 Switzerland",second:"🇨🇦 Canada",third:"🇧🇦 Bosnia & Herzegovina"},C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇵🇾 Paraguay",second:"🇺🇸 USA",third:"🇹🇷 Türkiye"},E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"},G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇨🇩 DR Congo"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🇨🇿 Czechia","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇹🇷 Türkiye","🇪🇨 Ecuador","🇯🇵 Japan","🇳🇴 Norway","🇦🇹 Austria","🇨🇩 DR Congo"],
+   r32:{r32_01:{goalsA:0,goalsB:2,advance:"🇨🇦 Canada"},r32_02:{goalsA:2,goalsB:1,advance:"🇧🇷 Brazil"},r32_03:{goalsA:3,goalsB:0,advance:"🇩🇪 Germany"},r32_04:{goalsA:2,goalsB:1,advance:"🇳🇱 Netherlands"},r32_05:{goalsA:1,goalsB:2,advance:"🇳🇴 Norway"},r32_06:{goalsA:3,goalsB:0,advance:"🇫🇷 France"},r32_07:{goalsA:2,goalsB:1,advance:"🇲🇽 Mexico"},r32_08:{goalsA:3,goalsB:0,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:2,advance:"🇸🇳 Senegal"},r32_10:{goalsA:2,goalsB:0,advance:"🇺🇸 USA"},r32_11:{goalsA:3,goalsB:0,advance:"🇪🇸 Spain"},r32_12:{goalsA:1,goalsB:1,advance:"🇵🇹 Portugal"},r32_13:{goalsA:1,goalsB:1,advance:"🇩🇿 Algeria"},r32_14:{goalsA:0,goalsB:0,advance:"🇪🇬 Egypt"},r32_15:{goalsA:2,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:2,goalsB:1,advance:"🇨🇴 Colombia"}}},
 
-// ─────────────────────────────────────────────────────────────────────────
-// LIVE STATE (synced from Firebase)
-// ─────────────────────────────────────────────────────────────────────────
+  {name:"Hooba", color:"#10b981",avatar:"🦊",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},B:{first:"🇶🇦 Qatar",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇦 Canada"},C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"},E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🇧🇦 Bosnia & Herzegovina","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇮🇷 Iran","🇸🇳 Senegal","🇦🇹 Austria","🇺🇿 Uzbekistan","🇬🇭 Ghana"],
+   r32:{r32_01:{goalsA:1,goalsB:2,advance:"🇨🇦 Canada"},r32_02:{goalsA:3,goalsB:1,advance:"🇧🇷 Brazil"},r32_03:{goalsA:2,goalsB:0,advance:"🇩🇪 Germany"},r32_04:{goalsA:2,goalsB:1,advance:"🇳🇱 Netherlands"},r32_05:{goalsA:1,goalsB:2,advance:"🇳🇴 Norway"},r32_06:{goalsA:3,goalsB:0,advance:"🇫🇷 France"},r32_07:{goalsA:3,goalsB:1,advance:"🇲🇽 Mexico"},r32_08:{goalsA:3,goalsB:1,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:3,advance:"🇸🇳 Senegal"},r32_10:{goalsA:3,goalsB:1,advance:"🇺🇸 USA"},r32_11:{goalsA:3,goalsB:0,advance:"🇪🇸 Spain"},r32_12:{goalsA:3,goalsB:2,advance:"🇵🇹 Portugal"},r32_13:{goalsA:2,goalsB:0,advance:"🇨🇭 Switzerland"},r32_14:{goalsA:1,goalsB:2,advance:"🇪🇬 Egypt"},r32_15:{goalsA:3,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:3,goalsB:1,advance:"🇨🇴 Colombia"}}},
+
+  {name:"Bodz",  color:"#6366f1",avatar:"🐺",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},B:{first:"🇨🇦 Canada",second:"🇨🇭 Switzerland",third:"🇶🇦 Qatar"},C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇵🇾 Paraguay"},E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},F:{first:"🇳🇱 Netherlands",second:"🇸🇪 Sweden",third:"🇯🇵 Japan"},G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},H:{first:"🇪🇸 Spain",second:"🇺🇾 Uruguay",third:"🇸🇦 Saudi Arabia"},I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇯🇴 Jordan"},K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🇨🇿 Czechia","🇶🇦 Qatar","🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇪🇨 Ecuador","🇯🇵 Japan","🇸🇦 Saudi Arabia","🇯🇴 Jordan","🇬🇭 Ghana"],
+   r32:{r32_01:{goalsA:1,goalsB:1,advance:"🇨🇦 Canada"},r32_02:{goalsA:3,goalsB:1,advance:"🇧🇷 Brazil"},r32_03:{goalsA:2,goalsB:0,advance:"🇩🇪 Germany"},r32_04:{goalsA:2,goalsB:2,advance:"🇳🇱 Netherlands"},r32_05:{goalsA:3,goalsB:1,advance:"🇨🇮 Côte d'Ivoire"},r32_06:{goalsA:4,goalsB:1,advance:"🇫🇷 France"},r32_07:{goalsA:2,goalsB:1,advance:"🇲🇽 Mexico"},r32_08:{goalsA:3,goalsB:0,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:2,advance:"🇸🇳 Senegal"},r32_10:{goalsA:4,goalsB:1,advance:"🇺🇸 USA"},r32_11:{goalsA:3,goalsB:1,advance:"🇪🇸 Spain"},r32_12:{goalsA:2,goalsB:1,advance:"🇵🇹 Portugal"},r32_13:{goalsA:2,goalsB:1,advance:"🇨🇭 Switzerland"},r32_14:{goalsA:1,goalsB:2,advance:"🇪🇬 Egypt"},r32_15:{goalsA:3,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:2,goalsB:1,advance:"🇨🇴 Colombia"}}},
+
+  {name:"Joe",   color:"#0ea5e9",avatar:"🦅",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},B:{first:"🇧🇦 Bosnia & Herzegovina",second:"🇨🇦 Canada",third:"🇶🇦 Qatar"},C:{first:"🇧🇷 Brazil",second:"🇲🇦 Morocco",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇺🇸 USA",second:"🇵🇾 Paraguay",third:"🇦🇺 Australia"},E:{first:"🇩🇪 Germany",second:"🇨🇮 Côte d'Ivoire",third:"🇪🇨 Ecuador"},F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇳🇿 New Zealand"},H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"},I:{first:"🇫🇷 France",second:"🇸🇳 Senegal",third:"🇳🇴 Norway"},J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},K:{first:"🇵🇹 Portugal",second:"🇨🇩 DR Congo",third:"🇨🇴 Colombia"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland","🇵🇾 Paraguay","🇪🇨 Ecuador","🇸🇪 Sweden","🇺🇾 Uruguay","🇳🇴 Norway","🇦🇹 Austria","🇨🇴 Colombia"],
+   r32:{r32_01:{goalsA:1,goalsB:2,advance:"🇨🇦 Canada"},r32_02:{goalsA:2,goalsB:2,advance:"🇧🇷 Brazil"},r32_03:{goalsA:5,goalsB:1,advance:"🇩🇪 Germany"},r32_04:{goalsA:2,goalsB:3,advance:"🇲🇦 Morocco"},r32_05:{goalsA:1,goalsB:3,advance:"🇳🇴 Norway"},r32_06:{goalsA:4,goalsB:1,advance:"🇫🇷 France"},r32_07:{goalsA:2,goalsB:0,advance:"🇲🇽 Mexico"},r32_08:{goalsA:1,goalsB:0,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:2,advance:"🇸🇳 Senegal"},r32_10:{goalsA:3,goalsB:1,advance:"🇺🇸 USA"},r32_11:{goalsA:2,goalsB:2,advance:"🇦🇹 Austria"},r32_12:{goalsA:1,goalsB:1,advance:"🇵🇹 Portugal"},r32_13:{goalsA:4,goalsB:2,advance:"🇨🇭 Switzerland"},r32_14:{goalsA:1,goalsB:1,advance:"🇪🇬 Egypt"},r32_15:{goalsA:2,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:2,goalsB:1,advance:"🇨🇴 Colombia"}}},
+
+  {name:"Thoory",color:"#a855f7",avatar:"🐉",
+   gs:{A:{first:"🇲🇽 Mexico",second:"🇰🇷 South Korea",third:"🇨🇿 Czechia"},B:{first:"🇨🇦 Canada",second:"🇧🇦 Bosnia & Herzegovina",third:"🇨🇭 Switzerland"},C:{first:"🇲🇦 Morocco",second:"🇧🇷 Brazil",third:"🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland"},D:{first:"🇺🇸 USA",second:"🇦🇺 Australia",third:"🇹🇷 Türkiye"},E:{first:"🇩🇪 Germany",second:"🇪🇨 Ecuador",third:"🇨🇮 Côte d'Ivoire"},F:{first:"🇳🇱 Netherlands",second:"🇯🇵 Japan",third:"🇸🇪 Sweden"},G:{first:"🇧🇪 Belgium",second:"🇪🇬 Egypt",third:"🇮🇷 Iran"},H:{first:"🇪🇸 Spain",second:"🇸🇦 Saudi Arabia",third:"🇺🇾 Uruguay"},I:{first:"🇫🇷 France",second:"🇳🇴 Norway",third:"🇸🇳 Senegal"},J:{first:"🇦🇷 Argentina",second:"🇩🇿 Algeria",third:"🇦🇹 Austria"},K:{first:"🇵🇹 Portugal",second:"🇨🇴 Colombia",third:"🇺🇿 Uzbekistan"},L:{first:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England",second:"🇭🇷 Croatia",third:"🇬🇭 Ghana"}},
+   gsBestThirds:["🇨🇭 Switzerland","🇹🇷 Türkiye","🇨🇮 Côte d'Ivoire","🇸🇪 Sweden","🇸🇦 Saudi Arabia","🇸🇳 Senegal","🇺🇿 Uzbekistan","🇬🇭 Ghana"],
+   r32:{r32_01:{goalsA:1,goalsB:2,advance:"🇨🇦 Canada"},r32_02:{goalsA:1,goalsB:0,advance:"🇧🇷 Brazil"},r32_03:{goalsA:3,goalsB:2,advance:"🇩🇪 Germany"},r32_04:{goalsA:1,goalsB:1,advance:"🇳🇱 Netherlands"},r32_05:{goalsA:2,goalsB:3,advance:"🇳🇴 Norway"},r32_06:{goalsA:4,goalsB:1,advance:"🇫🇷 France"},r32_07:{goalsA:2,goalsB:2,advance:"🇲🇽 Mexico"},r32_08:{goalsA:2,goalsB:0,advance:"🏴󠁧󠁢󠁥󠁮󠁧󠁿 England"},r32_09:{goalsA:1,goalsB:1,advance:"🇧🇪 Belgium"},r32_10:{goalsA:3,goalsB:1,advance:"🇺🇸 USA"},r32_11:{goalsA:2,goalsB:0,advance:"🇪🇸 Spain"},r32_12:{goalsA:2,goalsB:1,advance:"🇵🇹 Portugal"},r32_13:{goalsA:2,goalsB:1,advance:"🇨🇭 Switzerland"},r32_14:{goalsA:1,goalsB:2,advance:"🇪🇬 Egypt"},r32_15:{goalsA:3,goalsB:0,advance:"🇦🇷 Argentina"},r32_16:{goalsA:3,goalsB:1,advance:"🇨🇴 Colombia"}}},
+];
+const PMAP = {}; PREDICTORS.forEach(p => PMAP[p.name] = p);
+const MEDAL = {first:"🥇",second:"🥈",third:"🥉"};
+
+// ── APP STATE ─────────────────────────────────────────────────────────────
 let state = {
-  results: emptyResults(),
-  bestThirds: [],
   tab: "leaderboard",
-  selectedPredictor: 0,
-  connected: false,
+  selPred: 0,
+  r32results: {},  // {matchId: {goalsA, goalsB, advance}}
 };
 
-resultsRef.on("value", (snap) => {
-  const val = snap.val();
-  state.results = val ? { ...emptyResults(), ...val } : emptyResults();
-  state.connected = true;
+R("wc26/r32results").on("value", snap => {
+  state.r32results = snap.val() || {};
   render();
-}, (err) => {
-  console.error(err);
-  setStatus("err", "Firebase error — check console / CORS / DB rules");
+}, err => setStatus("err","Firebase error"));
+
+db.ref(".info/connected").on("value", snap => {
+  setStatus(snap.val() ? "live" : "off", snap.val() ? "live · synced" : "connecting…");
 });
 
-bestThirdsRef.on("value", (snap) => {
-  const val = snap.val();
-  state.bestThirds = Array.isArray(val) ? val : (val ? Object.values(val) : []);
-  render();
-});
+function setStatus(k,t){ document.getElementById("statusbar").innerHTML=`<span class="dot ${k}"></span> ${t}`; }
+function writeR32(matchId, data){ R("wc26/r32results/"+matchId).set(data); }
 
-db.ref(".info/connected").on("value", (snap) => {
-  if (snap.val() === true) setStatus("live", "live — synced with everyone");
-  else setStatus("off", "connecting…");
-});
-
-function setStatus(kind, text) {
-  document.getElementById("statusBar").innerHTML = `<span class="dot ${kind}"></span> ${text}`;
-}
-
-function writeResults(newResults) {
-  resultsRef.set(newResults);
-}
-function writeBestThirds(newList) {
-  bestThirdsRef.set(newList);
-}
-
-// ─────────────────────────────────────────────────────────────────────────
-// SCORING
-// ─────────────────────────────────────────────────────────────────────────
-function calcScore(predictor, results, bestThirdsResult) {
-  let pts = 0;
-  Object.keys(GROUPS).forEach(g => {
-    const r = results[g], p = predictor.groups[g];
-    if (!r || !p) return;
-    if (r.first && r.first === p.first) pts++;
-    if (r.second && r.second === p.second) pts++;
-    if (r.third && r.third === p.third) pts++;
+// ── SCORING ───────────────────────────────────────────────────────────────
+function gsScore(p){
+  let pts=0;
+  Object.keys(GROUPS).forEach(g=>{
+    const r=GS_RESULTS[g], pr=p.gs[g];
+    if(!r||!pr) return;
+    if(r.first===pr.first) pts++;
+    if(r.second===pr.second) pts++;
+    if(r.third===pr.third) pts++;
   });
-  if (bestThirdsResult && bestThirdsResult.length) {
-    predictor.bestThirds.forEach(t => { if (bestThirdsResult.includes(t)) pts++; });
-  }
+  p.gsBestThirds.forEach(t=>{ if(GS_BEST_THIRDS.includes(t)) pts++; });
   return pts;
 }
-function maxPossible(predictor, results, bestThirdsResult) {
-  let max = 0;
-  Object.keys(GROUPS).forEach(g => {
-    const r = results[g], p = predictor.groups[g];
-    if (!r || !p) { max += 3; return; }
-    if (!r.first) max++; else if (r.first === p.first) max++;
-    if (!r.second) max++; else if (r.second === p.second) max++;
-    if (!r.third) max++; else if (r.third === p.third) max++;
+function r32Score(p){
+  let pts=0;
+  R32.forEach(m=>{
+    const actual=state.r32results[m.id];
+    const pred=p.r32[m.id];
+    if(!actual||!pred) return;
+    const goalsMatch = actual.goalsA!==undefined && actual.goalsA===pred.goalsA && actual.goalsB===pred.goalsB;
+    const winnerMatch = actual.advance && actual.advance===pred.advance;
+    if(goalsMatch && winnerMatch) pts+=3;
+    else if(goalsMatch) pts+=2;
+    else if(winnerMatch) pts+=1;
   });
-  predictor.bestThirds.forEach(t => {
-    if (!bestThirdsResult || !bestThirdsResult.length || bestThirdsResult.includes(t)) max++;
+  return pts;
+}
+function totalScore(p){ return gsScore(p)+r32Score(p); }
+function gsMaxPossible(p){
+  // GS is final — fixed score
+  return gsScore(p);
+}
+function r32MaxPossible(p){
+  let max=0;
+  R32.forEach(m=>{
+    const actual=state.r32results[m.id];
+    const pred=p.r32[m.id];
+    if(!actual) { max+=3; return; }
+    const goalsMatch = actual.goalsA!==undefined && actual.goalsA===pred.goalsA && actual.goalsB===pred.goalsB;
+    const winnerMatch = actual.advance && actual.advance===pred.advance;
+    if(goalsMatch && winnerMatch) max+=3;
+    else if(goalsMatch) max+=2;
+    else if(winnerMatch) max+=1;
   });
   return max;
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// RENDER HELPERS
-// ─────────────────────────────────────────────────────────────────────────
-function esc(s) { return (s ?? "").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+// ── RENDER ────────────────────────────────────────────────────────────────
+const TABS = [
+  {id:"leaderboard",label:"🏆 Standings"},
+  {id:"gs",label:"📊 Group Stage"},
+  {id:"r32pred",label:"🔮 R32 Predictions"},
+  {id:"r32results",label:"✏️ Enter Results"},
+];
 
-function renderTabs() {
-  const TABS = [
-    { id: "leaderboard", label: "🏆 Leaderboard" },
-    { id: "results", label: "📊 Group Results" },
-    { id: "predictions", label: "👤 Predictions" },
-    { id: "edit", label: "✏️ Edit Results" },
-  ];
-  document.getElementById("tabs").innerHTML = TABS.map(t =>
-    `<button class="tab-btn ${state.tab===t.id?'active':''}" data-tab="${t.id}">${t.label}</button>`
+function renderTabs(){
+  document.getElementById("tabs").innerHTML = TABS.map(t=>
+    `<button class="tab ${state.tab===t.id?'active':''}" data-t="${t.id}">${t.label}</button>`
   ).join("");
-  document.querySelectorAll(".tab-btn").forEach(b => {
-    b.onclick = () => { state.tab = b.dataset.tab; render(); };
-  });
+  document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{state.tab=b.dataset.t;render();});
 }
 
-function renderLeaderboard() {
-  const scored = PREDICTORS.map((p,i) => ({
-    ...p, score: calcScore(p, state.results, state.bestThirds),
-    max: maxPossible(p, state.results, state.bestThirds), avatarIdx: i
-  })).sort((a,b) => b.score - a.score);
-  const maxTotal = Object.keys(GROUPS).length * 3 + 8;
+function esc(s){ return (s||"").toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-  let html = `<div class="section-title">Leaderboard</div>
-  <div class="section-sub">Max 44 pts total (3 per group × 12 + 8 best-thirds bonus)</div>`;
+// ─── LEADERBOARD ──────────────────────────────────────────────────────────
+function renderLeaderboard(){
+  const rows = PREDICTORS.map(p=>({p, gs:gsScore(p), r32:r32Score(p), total:totalScore(p)}))
+    .sort((a,b)=>b.total-a.total);
+  const GS_MAX = 44; // 12*3 + 8
+  const R32_MAX = 16*3; // 48
+  const TOTAL_MAX = GS_MAX + R32_MAX;
 
-  scored.forEach((p, rank) => {
-    const color = AVATAR_COLORS[p.avatarIdx % AVATAR_COLORS.length];
-    const pct = maxTotal ? (p.score / maxTotal * 100) : 0;
-    const medal = rank===0 && p.score>0 ? "🥇" : rank===1 ? "🥈" : rank===2 ? "🥉" : `#${rank+1}`;
-    const isFirst = rank===0 && p.score>0;
-    html += `
-      <div class="leader-row" style="${isFirst?`border:2px solid ${color};box-shadow:0 4px 16px ${color}33;`:''}">
-        <div class="leader-rank" style="font-size:${rank===0?28:rank===1?24:rank===2?20:18}px;">${medal}</div>
-        <div class="avatar" style="width:44px;height:44px;background:${color}22;border:2px solid ${color};font-size:22px;">${AVATARS[p.avatarIdx % AVATARS.length]}</div>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:16px;">${esc(p.name)}</div>
-          <div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:linear-gradient(90deg, ${color}, ${color}bb);"></div></div>
+  let html=`<div class="pg-title">Standings</div>
+  <div class="pg-sub">Group stage: max 44 pts · Round of 32: max 48 pts · Total: 92 pts</div>`;
+
+  rows.forEach((row,rank)=>{
+    const {p,gs,r32,total}=row;
+    const pct=total/TOTAL_MAX*100;
+    const medal=rank===0?"🥇":rank===1?"🥈":rank===2?"🥉":`#${rank+1}`;
+    const isFirst=rank===0;
+    html+=`<div class="lb-row" style="${isFirst?`border-color:${p.color};box-shadow:0 0 20px ${p.color}22;`:''}">
+      <div class="lb-rank" style="font-size:${rank<3?22:16}px;">${medal}</div>
+      <div class="lb-avatar" style="width:42px;height:42px;background:${p.color}18;border:2px solid ${p.color};font-size:20px;">${p.avatar}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:15px;">${esc(p.name)}</div>
+        <div style="display:flex;gap:8px;margin-top:3px;">
+          <span style="font-size:11px;color:#555;">GS <strong style="color:#888;">${gs}</strong></span>
+          <span style="font-size:11px;color:#555;">R32 <strong style="color:#888;">${r32}</strong></span>
         </div>
-        <div style="text-align:right;flex-shrink:0;">
-          <div style="font-weight:800;font-size:28px;color:${color};">${p.score}</div>
-          <div style="font-size:12px;color:#9ca3af;">max ${p.max}</div>
-        </div>
-      </div>`;
-  });
-  return html;
-}
-
-function renderGroupResults() {
-  let html = `<div class="section-title">Group Results</div>
-  <div class="section-sub">Current standings across all 12 groups.</div><div class="grid">`;
-  Object.keys(GROUPS).forEach(g => {
-    const r = state.results[g] || {};
-    const hasAny = r.first || r.second || r.third;
-    html += `<div class="card">
-      <div style="font-weight:700;font-size:13px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
-        <span class="group-label">Group ${g}</span>
-        ${!hasAny ? `<span style="font-size:11px;color:#d1d5db;">awaiting results</span>` : ''}
-      </div>`;
-    ["first","second","third"].forEach((pos,idx) => {
-      const advTag = (pos==="third" && r[pos] && state.bestThirds.includes(r[pos]))
-        ? `<span style="margin-left:auto;font-size:11px;background:#fef9c3;color:#854d0e;border-radius:6px;padding:1px 6px;">advances ✓</span>` : '';
-      html += `<div class="pos-row ${idx<2?'bordered':''}">
-        <span class="medal">${MEDAL[pos]}</span>
-        <span style="font-size:13px;color:${r[pos]?'#111':'#d1d5db'};">${esc(r[pos]||'—')}</span>
-        ${advTag}
-      </div>`;
-    });
-    html += `</div>`;
-  });
-  html += `</div>`;
-  return html;
-}
-
-function renderPredictions() {
-  let tabsHtml = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">`;
-  PREDICTORS.forEach((p,i) => {
-    const color = AVATAR_COLORS[i % AVATAR_COLORS.length];
-    const active = state.selectedPredictor === i;
-    tabsHtml += `<button class="predictor-tab ${active?'active':''}" data-pidx="${i}"
-      style="--c:${color};--c18:${color}18;">${AVATARS[i%AVATARS.length]} ${esc(p.name)}</button>`;
-  });
-  tabsHtml += `</div>`;
-
-  const p = PREDICTORS[state.selectedPredictor];
-  const color = AVATAR_COLORS[state.selectedPredictor % AVATAR_COLORS.length];
-  const score = calcScore(p, state.results, state.bestThirds);
-  const max = maxPossible(p, state.results, state.bestThirds);
-
-  let html = tabsHtml + `
-    <div class="summary-banner">
-      <div class="avatar" style="width:52px;height:52px;background:${color}22;border:2px solid ${color};font-size:26px;">${AVATARS[state.selectedPredictor%AVATARS.length]}</div>
-      <div>
-        <div style="font-weight:800;font-size:22px;">${esc(p.name)}</div>
-        <div style="color:#6b7280;font-size:13px;">${esc(p.email)}</div>
+        <div class="lb-bar"><div class="lb-fill" style="width:${pct}%;background:${p.color};"></div></div>
       </div>
-      <div style="margin-left:auto;text-align:right;">
-        <div style="font-weight:800;font-size:28px;color:${color};">${score} <span style="font-size:14px;font-weight:500;color:#9ca3af;">/ ${max} possible</span></div>
-        <div style="font-size:12px;color:#9ca3af;">current pts</div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-weight:800;font-size:26px;color:${p.color};">${total}</div>
+        <div style="font-size:11px;color:#444;">pts</div>
       </div>
-    </div>
-    <div class="grid">`;
-
-  Object.keys(GROUPS).forEach(g => {
-    const gp = p.groups[g];
-    const r = state.results[g] || {};
-    html += `<div class="card">
-      <div style="font-weight:700;font-size:14px;margin-bottom:10px;"><span class="group-label" style="background:${color};">Group ${g}</span></div>`;
-    ["first","second","third"].forEach((pos,idx) => {
-      const predicted = gp[pos];
-      const actual = r[pos];
-      const isCorrect = actual && predicted === actual;
-      const badgeKind = !actual ? "pending" : isCorrect ? "correct" : "wrong";
-      const badgeText = !actual ? "pending" : isCorrect ? "✓" : `✗ ${esc(actual)}`;
-      html += `<div class="pos-row ${idx<2?'bordered':''}">
-        <span class="medal">${MEDAL[pos]}</span>
-        <span style="font-size:13px;flex:1;">${esc(predicted||'—')}</span>
-        <span class="badge ${badgeKind}">${badgeText}</span>
-      </div>`;
-    });
-    html += `</div>`;
+    </div>`;
   });
-  html += `</div>`;
-
-  html += `<div class="card" style="margin-top:20px;">
-    <div style="font-weight:700;font-size:14px;margin-bottom:12px;">Best 8 Third-Place Picks</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">`;
-  p.bestThirds.forEach(t => {
-    const isPending = !state.bestThirds.length;
-    const isCorrect = state.bestThirds.includes(t);
-    const kind = isPending ? "pending" : isCorrect ? "correct" : "wrong";
-    html += `<span class="badge ${kind}">${esc(t)}</span>`;
-  });
-  html += `</div></div>`;
   return html;
 }
 
-function renderEdit() {
-  let html = `<div class="section-title">Update Group Results</div>
-  <div class="section-sub">Set the actual finishing positions as groups complete. Changes save instantly for everyone.</div>
+// ─── GROUP STAGE VIEW ─────────────────────────────────────────────────────
+function renderGS(){
+  let html=`<div class="pg-title">Group Stage</div>
+  <div class="pg-sub">Final standings — group stage is complete and locked.</div>`;
+
+  // results grid
+  html+=`<div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-label">Final Group Standings</div><div class="sec-divider-line"></div></div>
   <div class="grid" style="margin-bottom:24px;">`;
-
-  Object.keys(GROUPS).forEach(g => {
-    const teams = GROUPS[g];
-    const r = state.results[g] || { first:"", second:"", third:"" };
-    html += `<div class="card">
-      <div style="font-weight:700;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-        <span class="group-label">Group ${g}</span>
-        <span style="font-size:12px;color:#9ca3af;">${teams.map(t=>t.split(" ")[0]).join(" ")}</span>
+  Object.keys(GROUPS).forEach(g=>{
+    const r=GS_RESULTS[g];
+    html+=`<div class="card">
+      <div style="font-weight:700;font-size:12px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+        <span class="glabel">Group ${g}</span>
       </div>`;
-    ["first","second","third"].forEach(pos => {
-      html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-        <span class="medal" style="font-size:16px;">${MEDAL[pos]}</span>
-        <select class="result-select" data-group="${g}" data-pos="${pos}">
-          <option value="">— not set —</option>
-          ${teams.map(t => `<option value="${esc(t)}" ${r[pos]===t?'selected':''}>${esc(t)}</option>`).join("")}
-        </select>
+    ["first","second","third"].forEach((pos,idx)=>{
+      const isAdv = pos==="third" && GS_BEST_THIRDS.includes(r[pos]);
+      html+=`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;${idx<2?'border-bottom:1px solid #1a1a1f;':''}">
+        <span style="font-size:14px;">${MEDAL[pos]}</span>
+        <span style="font-size:12px;flex:1;">${esc(r[pos]||'—')}</span>
+        ${isAdv?`<span style="font-size:10px;background:#052e16;color:#4ade80;border-radius:4px;padding:1px 5px;border:1px solid #166534;">advances</span>`:''}
       </div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   });
-  html += `</div>`;
+  html+=`</div>`;
 
-  html += `<div class="card">
-    <div style="font-weight:700;font-size:15px;margin-bottom:4px;">Best 8 Third-Place Teams (advancing)</div>
-    <div style="color:#6b7280;font-size:12px;margin-bottom:14px;">Select exactly 8 third-placed teams that advance to the knockout stage.</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">`;
-
-  let anyThird = false;
-  Object.keys(GROUPS).forEach(g => {
-    const third = state.results[g]?.third;
-    if (!third) return;
-    anyThird = true;
-    const selected = state.bestThirds.includes(third);
-    html += `<button class="third-pill ${selected?'selected':''}" data-team="${esc(third)}">
-      ${esc(third)} <span style="font-size:11px;color:#9ca3af;">(G${g})</span>
-    </button>`;
+  // predictions scoring
+  html+=`<div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-label">Prediction Scores</div><div class="sec-divider-line"></div></div>
+  <div class="grid-2">`;
+  PREDICTORS.forEach(p=>{
+    const score=gsScore(p);
+    let details=[];
+    Object.keys(GROUPS).forEach(g=>{
+      const r=GS_RESULTS[g],pr=p.gs[g];
+      let pts=0;
+      if(r.first===pr.first) pts++;
+      if(r.second===pr.second) pts++;
+      if(r.third===pr.third) pts++;
+      details.push({g,pts,pr,r});
+    });
+    let btPts=0; p.gsBestThirds.forEach(t=>{ if(GS_BEST_THIRDS.includes(t)) btPts++; });
+    html+=`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:30px;height:30px;border-radius:50%;background:${p.color}22;border:1.5px solid ${p.color};display:inline-flex;align-items:center;justify-content:center;font-size:16px;">${p.avatar}</span>
+          <span style="font-weight:700;font-size:14px;">${esc(p.name)}</span>
+        </div>
+        <span style="font-size:20px;font-weight:800;color:${p.color};">${score} <span style="font-size:12px;color:#444;">/ 44</span></span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;">
+        ${details.map(d=>`<span style="font-size:11px;background:#1a1a20;border-radius:5px;padding:2px 7px;color:${d.pts===3?'#4ade80':d.pts===2?'#facc15':d.pts===1?'#fb923c':'#555'};">${d.g}: ${d.pts}pt</span>`).join("")}
+      </div>
+      <div style="font-size:11px;color:#555;">Best thirds: <span style="color:${btPts>=6?'#4ade80':'#fb923c'};">${btPts}/8</span> correct</div>
+    </div>`;
   });
-  html += `</div>`;
-  if (!anyThird) html += `<p style="color:#9ca3af;font-size:13px;">Set group results above to see third-place teams here.</p>`;
-  html += `<div style="margin-top:10px;font-size:13px;color:#6b7280;">Selected: <strong style="color:${state.bestThirds.length===8?'#10b981':'#f97316'};">${state.bestThirds.length}/8</strong></div>`;
-  html += `</div>`;
+  html+=`</div>`;
   return html;
 }
 
-function render() {
-  renderTabs();
-  const content = document.getElementById("content");
-  if (state.tab === "leaderboard") content.innerHTML = renderLeaderboard();
-  else if (state.tab === "results") content.innerHTML = renderGroupResults();
-  else if (state.tab === "predictions") content.innerHTML = renderPredictions();
-  else if (state.tab === "edit") content.innerHTML = renderEdit();
+// ─── R32 PREDICTIONS VIEW ────────────────────────────────────────────────
+function renderR32Pred(){
+  const p = PREDICTORS[state.selPred];
+  let tabsHtml=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">`;
+  PREDICTORS.forEach((pr,i)=>{
+    const act=state.selPred===i;
+    tabsHtml+=`<button class="ptab ${act?'active':''}" data-pi="${i}" style="--pc:${pr.color};--pcbg:${pr.color}18;">${pr.avatar} ${esc(pr.name)}</button>`;
+  });
+  tabsHtml+=`</div>`;
 
-  // wire up interactive elements per-tab
-  if (state.tab === "predictions") {
-    document.querySelectorAll("[data-pidx]").forEach(b => {
-      b.onclick = () => { state.selectedPredictor = parseInt(b.dataset.pidx); render(); };
+  const r32pts=r32Score(p);
+  let html=tabsHtml;
+  html+=`<div class="sum-banner">
+    <div style="width:46px;height:46px;border-radius:50%;background:${p.color}18;border:2px solid ${p.color};display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">${p.avatar}</div>
+    <div><div style="font-weight:800;font-size:18px;">${esc(p.name)}</div><div style="font-size:11px;color:#444;">Round of 32 predictions</div></div>
+    <div style="margin-left:auto;text-align:right;">
+      <div style="font-weight:800;font-size:24px;color:${p.color};">${r32pts}</div>
+      <div style="font-size:11px;color:#444;">R32 pts so far</div>
+    </div>
+  </div>`;
+
+  html+=`<div class="grid-2">`;
+  R32.forEach(m=>{
+    const pred=p.r32[m.id];
+    const actual=state.r32results[m.id];
+    const played=actual && actual.advance;
+    const goalsMatch=played && actual.goalsA===pred.goalsA && actual.goalsB===pred.goalsB;
+    const winnerMatch=played && actual.advance===pred.advance;
+    let pts=0, badgeKind="pending", badgeText="pending";
+    if(played){
+      if(goalsMatch&&winnerMatch){pts=3;badgeKind="correct";badgeText="⚡ 3pts";}
+      else if(goalsMatch){pts=2;badgeKind="correct";badgeText="✓ 2pts (goals)";}
+      else if(winnerMatch){pts=1;badgeKind="correct";badgeText="✓ 1pt (winner)";}
+      else{pts=0;badgeKind="wrong";badgeText="✗ 0pts";}
+    }
+    html+=`<div class="match-card">
+      <div class="match-header">
+        <span class="match-tag">${m.tag}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="badge ${badgeKind}">${badgeText}</span>
+          <span class="match-time">${m.date}</span>
+        </div>
+      </div>
+      <div class="match-body">
+        <div class="match-team-row">
+          <span class="match-team-name">${esc(m.teamA)}</span>
+          <span class="match-score${played?'':' pending-score'}">${played?actual.goalsA:'?'}</span>
+        </div>
+        <div class="match-vs">VS</div>
+        <div class="match-team-row">
+          <span class="match-team-name">${esc(m.teamB)}</span>
+          <span class="match-score${played?'':' pending-score'}">${played?actual.goalsB:'?'}</span>
+        </div>
+        <div style="font-size:11px;color:#444;margin-top:8px;margin-bottom:4px;">Predicted:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;background:#1a1a20;border-radius:6px;padding:3px 8px;">${esc(pred.goalsA)} – ${esc(pred.goalsB)}</span>
+          <span style="font-size:12px;background:#1a1a20;border-radius:6px;padding:3px 8px;">Adv: ${esc(pred.advance)}</span>
+        </div>
+      </div>
+    </div>`;
+  });
+  html+=`</div>`;
+  return html;
+}
+
+// ─── ENTER R32 RESULTS ───────────────────────────────────────────────────
+function renderR32Edit(){
+  let html=`<div class="pg-title">Enter R32 Results</div>
+  <div class="pg-sub">Enter the actual score and advancing team after each match. Saves instantly.</div>
+  <div class="grid-2">`;
+  R32.forEach(m=>{
+    const r=state.r32results[m.id]||{};
+    const teams=[m.teamA,m.teamB];
+    html+=`<div class="match-card">
+      <div class="match-header">
+        <span class="match-tag">${m.tag}</span>
+        <span class="match-time">${m.date}</span>
+      </div>
+      <div class="match-body">
+        <div style="font-size:11px;color:#555;margin-bottom:8px;font-weight:600;">Score</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="font-size:12px;flex:1;">${esc(m.teamA)}</span>
+          <input class="escore" type="number" min="0" max="20" value="${r.goalsA??''}" data-mid="${m.id}" data-f="goalsA" placeholder="–"/>
+          <span style="color:#333;font-weight:700;">–</span>
+          <input class="escore" type="number" min="0" max="20" value="${r.goalsB??''}" data-mid="${m.id}" data-f="goalsB" placeholder="–"/>
+          <span style="font-size:12px;flex:1;text-align:right;">${esc(m.teamB)}</span>
+        </div>
+        <div style="font-size:11px;color:#555;margin-bottom:6px;font-weight:600;">Advances</div>
+        <select class="eselect" data-mid="${m.id}" data-f="advance">
+          <option value="">— not played —</option>
+          ${teams.map(t=>`<option value="${esc(t)}" ${r.advance===t?'selected':''}>${esc(t)}</option>`).join("")}
+        </select>
+      </div>
+    </div>`;
+  });
+  html+=`</div>`;
+  return html;
+}
+
+// ─── MAIN RENDER ──────────────────────────────────────────────────────────
+function render(){
+  renderTabs();
+  const el=document.getElementById("content");
+  if(state.tab==="leaderboard") el.innerHTML=renderLeaderboard();
+  else if(state.tab==="gs") el.innerHTML=renderGS();
+  else if(state.tab==="r32pred") el.innerHTML=renderR32Pred();
+  else if(state.tab==="r32results") el.innerHTML=renderR32Edit();
+
+  if(state.tab==="r32pred"){
+    document.querySelectorAll("[data-pi]").forEach(b=>b.onclick=()=>{state.selPred=+b.dataset.pi;render();});
+  }
+  if(state.tab==="r32results"){
+    // debounce score inputs
+    document.querySelectorAll(".escore,.eselect").forEach(el=>{
+      el.onchange=()=>saveR32Match(el.dataset.mid);
     });
   }
-  if (state.tab === "edit") {
-    document.querySelectorAll(".result-select").forEach(sel => {
-      sel.onchange = () => {
-        const g = sel.dataset.group, pos = sel.dataset.pos;
-        const newResults = JSON.parse(JSON.stringify(state.results));
-        newResults[g] = newResults[g] || { first:"", second:"", third:"" };
-        newResults[g][pos] = sel.value;
-        writeResults(newResults);
-      };
-    });
-    document.querySelectorAll(".third-pill").forEach(btn => {
-      btn.onclick = () => {
-        const team = btn.dataset.team;
-        let list = [...state.bestThirds];
-        if (list.includes(team)) list = list.filter(t => t !== team);
-        else if (list.length < 8) list.push(team);
-        writeBestThirds(list);
-      };
-    });
-  }
+}
+
+function saveR32Match(mid){
+  const goalsAEl=document.querySelector(`.escore[data-mid="${mid}"][data-f="goalsA"]`);
+  const goalsBEl=document.querySelector(`.escore[data-mid="${mid}"][data-f="goalsB"]`);
+  const advEl=document.querySelector(`.eselect[data-mid="${mid}"][data-f="advance"]`);
+  const obj={
+    goalsA: goalsAEl&&goalsAEl.value!==''?parseInt(goalsAEl.value):null,
+    goalsB: goalsBEl&&goalsBEl.value!==''?parseInt(goalsBEl.value):null,
+    advance: advEl?advEl.value:""
+  };
+  writeR32(mid, obj);
 }
 
 render();
 </script>
-
 </body>
 </html>
