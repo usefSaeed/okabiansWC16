@@ -183,6 +183,12 @@ cursor: pointer; transition: opacity 0.2s; text-transform: uppercase;
 .pred-grid-wrap { margin-top: 20px; }
 #pred-sticky-bar .participant-selector { margin-bottom: 0; }
 
+.round-header {
+font-family: ‘Oswald’, sans-serif; font-size: 1.1rem; font-weight: 600;
+color: var(–gold); letter-spacing: 1px; padding: 8px 4px 4px;
+border-bottom: 1px solid var(–border); margin-bottom: 4px;
+}
+
 /* scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -521,7 +527,11 @@ function sortedMatches() {
 
 // ─── MATCHES ─────────────────────────────────────────────────────────────────
 function renderMatches() {
-  const html = sortedMatches().map(m => {
+  const sorted = sortedMatches();
+  const r16 = sorted.filter(m => m.round === 'R16');
+  const r32 = sorted.filter(m => m.round !== 'R16');
+
+  function matchCard(m) {
     const act = actuals[m.id];
     const hasResult = act && act.g1 !== undefined;
     return `
@@ -549,8 +559,25 @@ function renderMatches() {
         </div>
         ${hasResult ? `<div class="winner-chip">🚀 Advances: ${act.winner}</div>` : '<div class="winner-chip" style="opacity:0.4">⏳ Awaiting result</div>'}
       </div>`;
-  }).join('');
-  document.getElementById('matches-container').innerHTML = html;
+  }
+
+  const r16Header = r16.length ? `
+    <div style="grid-column:1/-1; font-family:'Oswald',sans-serif; font-size:1.1rem; font-weight:600;
+      color:#fff; display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+      🏟 Round of 16
+      <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+    </div>` : '';
+
+  const r32Header = r32.length ? `
+    <div style="grid-column:1/-1; font-family:'Oswald',sans-serif; font-size:1.1rem; font-weight:600;
+      color:#fff; display:flex; align-items:center; gap:10px; margin-top:${r16.length?'16px':'0'}; margin-bottom:4px;">
+      ⚔️ Round of 32
+      <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+    </div>` : '';
+
+  document.getElementById('matches-container').innerHTML =
+    r16Header + r16.map(matchCard).join('') +
+    r32Header + r32.map(matchCard).join('');
 }
 
 // ─── PREDICTIONS ─────────────────────────────────────────────────────────────
