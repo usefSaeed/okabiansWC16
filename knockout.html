@@ -306,6 +306,15 @@ const MATCHES = [
   { id: 'm14', t1: '🇦🇺', n1: 'Australia',    t2: '🇪🇬', n2: 'Egypt',         time: 'Jul 2  · 21:00' },
   { id: 'm15', t1: '🇦🇷', n1: 'Argentina',    t2: '🇨🇻', n2: 'Cabo Verde',    time: 'Jul 3  · 15:00' },
   { id: 'm16', t1: '🇨🇴', n1: 'Colombia',     t2: '🇬🇭', n2: 'Ghana',         time: 'Jul 3  · 18:00' },
+  // ── R16 ──
+  { id: 'r01', t1: '🇨🇦', n1: 'Canada',       t2: '🇲🇦', n2: 'Morocco',        time: 'Jul 4  · FT',    round: 'R16' },
+  { id: 'r02', t1: '🇵🇾', n1: 'Paraguay',     t2: '🇫🇷', n2: 'France',         time: 'Jul 5  · 00:00', round: 'R16' },
+  { id: 'r03', t1: '🇧🇷', n1: 'Brazil',       t2: '🇳🇴', n2: 'Norway',         time: 'Jul 5  · 23:00', round: 'R16' },
+  { id: 'r04', t1: '🇲🇽', n1: 'Mexico',       t2: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', n2: 'England',        time: 'Jul 6  · 03:00', round: 'R16' },
+  { id: 'r05', t1: '🇵🇹', n1: 'Portugal',     t2: '🇪🇸', n2: 'Spain',          time: 'Jul 6  · 22:00', round: 'R16' },
+  { id: 'r06', t1: '🇺🇸', n1: 'USA',          t2: '🇧🇪', n2: 'Belgium',        time: 'Jul 7  · 03:00', round: 'R16' },
+  { id: 'r07', t1: '🇦🇷', n1: 'Argentina',    t2: '🇪🇬', n2: 'Egypt',          time: 'Jul 7  · 19:00', round: 'R16' },
+  { id: 'r08', t1: '🇨🇭', n1: 'Switzerland',  t2: '🇨🇴', n2: 'Colombia',       time: 'Jul 7  · 23:00', round: 'R16' },
 ];
 
 // Pre-loaded predictions from CSV
@@ -319,6 +328,14 @@ const PREDICTIONS = {
     { mid:'m11', g1:3, g2:0, w:'Spain'       }, { mid:'m12', g1:3, g2:2, w:'Portugal'    },
     { mid:'m13', g1:2, g2:0, w:'Switzerland' }, { mid:'m14', g1:1, g2:2, w:'Egypt'       },
     { mid:'m15', g1:3, g2:0, w:'Argentina'   }, { mid:'m16', g1:3, g2:1, w:'Colombia'    },
+    { mid:'r01', g1:1, g2:1, w:'Morocco'     },
+    { mid:'r02', g1:0, g2:3, w:'France'      },
+    { mid:'r03', g1:2, g2:1, w:'Brazil'      },
+    { mid:'r04', g1:1, g2:1, w:'Mexico'      },
+    { mid:'r05', g1:1, g2:2, w:'Spain'       },
+    { mid:'r06', g1:2, g2:2, w:'USA'         },
+    { mid:'r07', g1:1, g2:1, w:'Egypt'       },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
   ],
   bodz: [
     { mid:'m01', g1:1, g2:1, w:'Canada'      }, { mid:'m02', g1:3, g2:1, w:'Brazil'      },
@@ -329,16 +346,32 @@ const PREDICTIONS = {
     { mid:'m11', g1:3, g2:1, w:'Spain'       }, { mid:'m12', g1:2, g2:1, w:'Portugal'    },
     { mid:'m13', g1:2, g2:1, w:'Switzerland' }, { mid:'m14', g1:1, g2:2, w:'Egypt'       },
     { mid:'m15', g1:3, g2:0, w:'Argentina'   }, { mid:'m16', g1:2, g2:1, w:'Colombia'    },
+    { mid:'r01', g1:1, g2:2, w:'Morocco'     },
+    { mid:'r02', g1:1, g2:3, w:'France'      },
+    { mid:'r03', g1:3, g2:1, w:'Brazil'      },
+    { mid:'r04', g1:2, g2:2, w:'Mexico'      },
+    { mid:'r05', g1:1, g2:3, w:'Spain'       },
+    { mid:'r06', g1:2, g2:0, w:'USA'         },
+    { mid:'r07', g1:2, g2:2, w:'Egypt'       },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
   ],
   thoory: [
     { mid:'m01', g1:1, g2:2, w:'Canada'      }, { mid:'m02', g1:1, g2:0, w:'Brazil'      },
     { mid:'m03', g1:3, g2:2, w:'Germany'     }, { mid:'m04', g1:1, g2:1, w:'Netherlands' },
     { mid:'m05', g1:2, g2:3, w:'Norway'      }, { mid:'m06', g1:4, g2:1, w:'France'      },
-    { mid:'m07', g1:2, g2:2, w:'Mexico'      }, { mid:'m08', g1:2, g2:0, w:'England'     },
+    { mid:'m07', g1:2, g2:2, w:'Mexico'      }, { mid:'m08', g1:2, g2:1, w:'England'     },
     { mid:'m09', g1:1, g2:1, w:'Belgium'     }, { mid:'m10', g1:3, g2:1, w:'USA'         },
     { mid:'m11', g1:2, g2:0, w:'Spain'       }, { mid:'m12', g1:2, g2:1, w:'Portugal'    },
     { mid:'m13', g1:2, g2:1, w:'Switzerland' }, { mid:'m14', g1:1, g2:2, w:'Egypt'       },
     { mid:'m15', g1:3, g2:0, w:'Argentina'   }, { mid:'m16', g1:3, g2:1, w:'Colombia'    },
+    { mid:'r01', g1:0, g2:1, w:'Morocco'     },
+    { mid:'r02', g1:0, g2:3, w:'France'      },
+    { mid:'r03', g1:3, g2:2, w:'Brazil'      },
+    { mid:'r04', g1:2, g2:2, w:'England'     },
+    { mid:'r05', g1:1, g2:2, w:'Spain'       },
+    { mid:'r06', g1:2, g2:1, w:'USA'         },
+    { mid:'r07', g1:1, g2:1, w:'Egypt'       },
+    { mid:'r08', g1:0, g2:1, w:'Colombia'    },
   ],
   hamada: [
     { mid:'m01', g1:0, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:1, w:'Brazil'      },
@@ -349,6 +382,14 @@ const PREDICTIONS = {
     { mid:'m11', g1:3, g2:0, w:'Spain'       }, { mid:'m12', g1:1, g2:1, w:'Portugal'    },
     { mid:'m13', g1:1, g2:1, w:'Algeria'     }, { mid:'m14', g1:0, g2:0, w:'Egypt'       },
     { mid:'m15', g1:2, g2:0, w:'Argentina'   }, { mid:'m16', g1:2, g2:1, w:'Colombia'    },
+    { mid:'r01', g1:1, g2:2, w:'Morocco'     },
+    { mid:'r02', g1:0, g2:3, w:'France'      },
+    { mid:'r03', g1:2, g2:1, w:'Brazil'      },
+    { mid:'r04', g1:1, g2:0, w:'Mexico'      },
+    { mid:'r05', g1:0, g2:1, w:'Spain'       },
+    { mid:'r06', g1:1, g2:2, w:'Belgium'     },
+    { mid:'r07', g1:1, g2:1, w:'Egypt'       },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
   ],
   joe: [
     { mid:'m01', g1:1, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:2, w:'Brazil'      },
@@ -359,16 +400,32 @@ const PREDICTIONS = {
     { mid:'m11', g1:2, g2:2, w:'Austria'     }, { mid:'m12', g1:1, g2:1, w:'Portugal'    },
     { mid:'m13', g1:4, g2:2, w:'Switzerland' }, { mid:'m14', g1:1, g2:1, w:'Egypt'       },
     { mid:'m15', g1:2, g2:0, w:'Argentina'   }, { mid:'m16', g1:2, g2:1, w:'Colombia'    },
+    { mid:'r01', g1:1, g2:3, w:'Morocco'     },
+    { mid:'r02', g1:0, g2:2, w:'France'      },
+    { mid:'r03', g1:3, g2:2, w:'Brazil'      },
+    { mid:'r04', g1:3, g2:2, w:'Mexico'      },
+    { mid:'r05', g1:1, g2:2, w:'Spain'       },
+    { mid:'r06', g1:2, g2:2, w:'USA'         },
+    { mid:'r07', g1:2, g2:2, w:'Egypt'       },
+    { mid:'r08', g1:2, g2:1, w:'Switzerland' },
   ],
   omar: [
     { mid:'m01', g1:0, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:2, w:'Brazil'      },
     { mid:'m03', g1:4, g2:0, w:'Germany'     }, { mid:'m04', g1:1, g2:2, w:'Morocco'     },
     { mid:'m05', g1:2, g2:2, w:'Norway'      }, { mid:'m06', g1:3, g2:1, w:'France'      },
-    { mid:'m07', g1:1, g2:2, w:'Ecuador'     }, { mid:'m08', g1:2, g2:0, w:'England'     },
+    { mid:'m07', g1:1, g2:2, w:'Ecuador'     }, { mid:'m08', g1:2, g2:1, w:'England'     },
     { mid:'m09', g1:1, g2:1, w:'Senegal'     }, { mid:'m10', g1:2, g2:0, w:'USA'         },
     { mid:'m11', g1:3, g2:1, w:'Spain'       }, { mid:'m12', g1:2, g2:1, w:'Portugal'    },
     { mid:'m13', g1:3, g2:1, w:'Switzerland' }, { mid:'m14', g1:1, g2:2, w:'Egypt'       },
     { mid:'m15', g1:2, g2:0, w:'Argentina'   }, { mid:'m16', g1:2, g2:0, w:'Colombia'    },
+    { mid:'r01', g1:1, g2:2, w:'Morocco'     },
+    { mid:'r02', g1:0, g2:2, w:'France'      },
+    { mid:'r03', g1:2, g2:2, w:'Brazil'      },
+    { mid:'r04', g1:0, g2:2, w:'England'     },
+    { mid:'r05', g1:2, g2:1, w:'Portugal'    },
+    { mid:'r06', g1:2, g2:1, w:'USA'         },
+    { mid:'r07', g1:1, g2:1, w:'Egypt'       },
+    { mid:'r08', g1:0, g2:1, w:'Colombia'    },
   ],
 };
 
@@ -426,7 +483,7 @@ function renderLeaderboard() {
   const scored = PARTICIPANTS.map(p => ({ ...p, ...calcPoints(p.id) }))
     .sort((a, b) => b.total - a.total || b.knockoutPts - a.knockoutPts);
 
-  const maxPossible = Math.max(...scored.map(p => p.groupPts)) + 16*3; // max group + max knockout
+  const maxPossible = Math.max(...scored.map(p => p.groupPts)) + 24*3; // 16 R32 + 8 R16
   const rankLabels = ['r1','r2','r3'];
   const rankEmoji = ['🥇','🥈','🥉'];
 
@@ -470,7 +527,7 @@ function renderMatches() {
     return `
       <div class="match-card">
         <div class="match-meta">
-          <span class="match-round">1/32 · R32</span>
+          <span class="match-round">${m.round === 'R16' ? '1/16 · R16' : '1/32 · R32'}</span>
           <span class="match-time">🕐 ${m.time}</span>
         </div>
         <div class="match-teams">
@@ -531,7 +588,7 @@ function renderPredictions() {
     }
     return `
       <div class="pred-card">
-        <div class="pred-match-label">1/32 · ${m.time}</div>
+        <div class="pred-match-label">${m.round === 'R16' ? '1/16 · R16' : '1/32 · R32'} · ${m.time}</div>
         <div class="pred-teams">
           <div class="pred-team">
             <div class="pred-flag">${m.t1}</div>
@@ -560,7 +617,7 @@ function renderAdmin() {
       <div class="admin-match-card">
         <div class="admin-match-header">
           <div class="admin-match-title">
-            <span class="match-round">1/32</span>
+            <span class="match-round">${m.round === 'R16' ? '1/16' : '1/32'}</span>
             ${m.t1} ${m.n1} vs ${m.n2} ${m.t2}
           </div>
           <span class="match-time">🕐 ${m.time}</span>
