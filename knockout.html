@@ -321,6 +321,11 @@ const MATCHES = [
   { id: 'r06', t1: '🇺🇸', n1: 'USA',          t2: '🇧🇪', n2: 'Belgium',        time: 'Jul 7  · 03:00', round: 'R16' },
   { id: 'r07', t1: '🇦🇷', n1: 'Argentina',    t2: '🇪🇬', n2: 'Egypt',          time: 'Jul 7  · 19:00', round: 'R16' },
   { id: 'r08', t1: '🇨🇭', n1: 'Switzerland',  t2: '🇨🇴', n2: 'Colombia',       time: 'Jul 7  · 23:00', round: 'R16' },
+  // ── QF ──
+  { id: 'q01', t1: '🇫🇷', n1: 'France',       t2: '🇲🇦', n2: 'Morocco',        time: 'Jul 9  · FT',    round: 'QF' },
+  { id: 'q02', t1: '🇪🇸', n1: 'Spain',        t2: '🇧🇪', n2: 'Belgium',        time: 'Jul 9  · 22:00', round: 'QF' },
+  { id: 'q03', t1: '🇳🇴', n1: 'Norway',       t2: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', n2: 'England',        time: 'Jul 12 · 00:00', round: 'QF' },
+  { id: 'q04', t1: '🇦🇷', n1: 'Argentina',    t2: '🇨🇭', n2: 'Switzerland',    time: 'Jul 12 · 04:00', round: 'QF' },
 ];
 
 // Pre-loaded predictions from CSV
@@ -341,7 +346,15 @@ const PREDICTIONS = {
     { mid:'r05', g1:1, g2:2, w:'Spain'       },
     { mid:'r06', g1:2, g2:2, w:'USA'         },
     { mid:'r07', g1:1, g2:1, w:'Egypt'       },
-    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },,,
+    { mid:'q01', g1:2, g2:1, w:'France' },
+    { mid:'q02', g1:1, g2:0, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
+    { mid:'q01', g1:2, g2:1, w:'France' },
+    { mid:'q02', g1:1, g2:0, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
   ],
   bodz: [
     { mid:'m01', g1:1, g2:1, w:'Canada'      }, { mid:'m02', g1:3, g2:1, w:'Brazil'      },
@@ -359,7 +372,15 @@ const PREDICTIONS = {
     { mid:'r05', g1:1, g2:3, w:'Spain'       },
     { mid:'r06', g1:2, g2:0, w:'USA'         },
     { mid:'r07', g1:2, g2:2, w:'Egypt'       },
-    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },,,
+    { mid:'q01', g1:3, g2:1, w:'France' },
+    { mid:'q02', g1:1, g2:0, w:'Spain' },
+    { mid:'q03', g1:3, g2:2, w:'Norway' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
+    { mid:'q01', g1:3, g2:1, w:'France' },
+    { mid:'q02', g1:1, g2:0, w:'Spain' },
+    { mid:'q03', g1:3, g2:2, w:'Norway' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
   ],
   thoory: [
     { mid:'m01', g1:1, g2:2, w:'Canada'      }, { mid:'m02', g1:1, g2:0, w:'Brazil'      },
@@ -377,7 +398,14 @@ const PREDICTIONS = {
     { mid:'r05', g1:1, g2:2, w:'Spain'       },
     { mid:'r06', g1:2, g2:1, w:'USA'         },
     { mid:'r07', g1:1, g2:1, w:'Egypt'       },
-    { mid:'r08', g1:0, g2:1, w:'Colombia'    },
+    { mid:'r08', g1:0, g2:1, w:'Colombia'    },,,
+    { mid:'q01', g1:1, g2:0, w:'France' },
+    { mid:'q02', g1:2, g2:0, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:1, g2:0, w:'Argentina' }
+    { mid:'q02', g1:2, g2:0, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:1, g2:0, w:'Argentina' }
   ],
   hamada: [
     { mid:'m01', g1:0, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:1, w:'Brazil'      },
@@ -395,7 +423,14 @@ const PREDICTIONS = {
     { mid:'r05', g1:0, g2:1, w:'Spain'       },
     { mid:'r06', g1:1, g2:2, w:'Belgium'     },
     { mid:'r07', g1:1, g2:1, w:'Egypt'       },
-    { mid:'r08', g1:1, g2:2, w:'Colombia'    },
+    { mid:'r08', g1:1, g2:2, w:'Colombia'    },,,
+    { mid:'q01', g1:2, g2:0, w:'France' },
+    { mid:'q02', g1:2, g2:1, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:1, g2:2, w:'Switzerland' }
+    { mid:'q02', g1:2, g2:1, w:'Spain' },
+    { mid:'q03', g1:1, g2:2, w:'England' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
   ],
   joe: [
     { mid:'m01', g1:1, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:2, w:'Brazil'      },
@@ -413,7 +448,15 @@ const PREDICTIONS = {
     { mid:'r05', g1:1, g2:2, w:'Spain'       },
     { mid:'r06', g1:2, g2:2, w:'USA'         },
     { mid:'r07', g1:2, g2:2, w:'Egypt'       },
-    { mid:'r08', g1:2, g2:1, w:'Switzerland' },
+    { mid:'r08', g1:2, g2:1, w:'Switzerland' },,,
+    { mid:'q01', g1:2, g2:2, w:'Morocco' },
+    { mid:'q02', g1:3, g2:1, w:'Spain' },
+    { mid:'q03', g1:2, g2:1, w:'Norway' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
+    { mid:'q01', g1:2, g2:2, w:'Morocco' },
+    { mid:'q02', g1:3, g2:1, w:'Spain' },
+    { mid:'q03', g1:2, g2:1, w:'Norway' },
+    { mid:'q04', g1:2, g2:0, w:'Argentina' }
   ],
   omar: [
     { mid:'m01', g1:0, g2:2, w:'Canada'      }, { mid:'m02', g1:2, g2:2, w:'Brazil'      },
@@ -431,7 +474,15 @@ const PREDICTIONS = {
     { mid:'r05', g1:2, g2:1, w:'Portugal'    },
     { mid:'r06', g1:2, g2:1, w:'USA'         },
     { mid:'r07', g1:1, g2:1, w:'Egypt'       },
-    { mid:'r08', g1:0, g2:1, w:'Colombia'    },
+    { mid:'r08', g1:0, g2:1, w:'Colombia'    },,,
+    { mid:'q01', g1:2, g2:0, w:'France' },
+    { mid:'q02', g1:3, g2:1, w:'Spain' },
+    { mid:'q03', g1:2, g2:2, w:'Norway' },
+    { mid:'q04', g1:3, g2:1, w:'Argentina' }
+    { mid:'q01', g1:2, g2:0, w:'France' },
+    { mid:'q02', g1:3, g2:1, w:'Spain' },
+    { mid:'q03', g1:2, g2:2, w:'Norway' },
+    { mid:'q04', g1:3, g2:1, w:'Argentina' }
   ],
 };
 
@@ -459,10 +510,13 @@ function calcPoints(pid) {
   for (const pred of preds) {
     const actual = actuals[pred.mid];
     if (!actual || actual.g1 === undefined) continue;
+    const isQF = pred.mid.startsWith('q');
+    const goalsPts = isQF ? 3 : 2;
+    const winnerPts = isQF ? 1.5 : 1;
     const goalsCorrect = actual.g1 === pred.g1 && actual.g2 === pred.g2;
     const winnerCorrect = actual.winner && actual.winner === pred.w;
-    if (goalsCorrect) goals += 2;
-    if (winnerCorrect) winner += 1;
+    if (goalsCorrect) goals += goalsPts;
+    if (winnerCorrect) winner += winnerPts;
   }
   const knockoutPts = goals + winner;
   return { goals, winner, knockoutPts, groupPts, total: groupPts + knockoutPts };
@@ -489,7 +543,7 @@ function renderLeaderboard() {
   const scored = PARTICIPANTS.map(p => ({ ...p, ...calcPoints(p.id) }))
     .sort((a, b) => b.total - a.total || b.knockoutPts - a.knockoutPts);
 
-  const maxPossible = Math.max(...scored.map(p => p.groupPts)) + 24*3; // 16 R32 + 8 R16
+  const maxPossible = Math.max(...scored.map(p => p.groupPts)) + 24*3 + 4*4.5; // 16 R32 + 8 R16 + 4 QF
   const rankLabels = ['r1','r2','r3'];
   const rankEmoji = ['🥇','🥈','🥉'];
 
@@ -528,56 +582,42 @@ function sortedMatches() {
 // ─── MATCHES ─────────────────────────────────────────────────────────────────
 function renderMatches() {
   const sorted = sortedMatches();
+  const qf  = sorted.filter(m => m.round === 'QF');
   const r16 = sorted.filter(m => m.round === 'R16');
-  const r32 = sorted.filter(m => m.round !== 'R16');
+  const r32 = sorted.filter(m => m.round !== 'QF' && m.round !== 'R16');
 
   function matchCard(m) {
     const act = actuals[m.id];
     const hasResult = act && act.g1 !== undefined;
-    return `
-      <div class="match-card">
-        <div class="match-meta">
-          <span class="match-round">${m.round === 'R16' ? '1/16 · R16' : '1/32 · R32'}</span>
-          <span class="match-time">🕐 ${m.time}</span>
-        </div>
-        <div class="match-teams">
-          <div class="team">
-            <div class="team-flag">${m.t1}</div>
-            <div class="team-name">${m.n1}</div>
-          </div>
-          <div>
-            <div class="actual-score">
-              <div class="score-box ${hasResult?'score-set':''}">${hasResult ? act.g1 : '–'}</div>
-              <div style="color:var(--muted);font-size:0.8rem">vs</div>
-              <div class="score-box ${hasResult?'score-set':''}">${hasResult ? act.g2 : '–'}</div>
-            </div>
-          </div>
-          <div class="team">
-            <div class="team-flag">${m.t2}</div>
-            <div class="team-name">${m.n2}</div>
-          </div>
-        </div>
-        ${hasResult ? `<div class="winner-chip">🚀 Advances: ${act.winner}</div>` : '<div class="winner-chip" style="opacity:0.4">⏳ Awaiting result</div>'}
-      </div>`;
+    const roundLabel = m.round === 'QF' ? '1/4 · QF' : m.round === 'R16' ? '1/16 · R16' : '1/32 · R32';
+    return '<div class="match-card">'
+      +'<div class="match-meta">'
+      +'<span class="match-round">'+roundLabel+'</span>'
+      +'<span class="match-time">🕐 '+m.time+'</span>'
+      +'</div>'
+      +'<div class="match-teams">'
+      +'<div class="team"><div class="team-flag">'+m.t1+'</div><div class="team-name">'+m.n1+'</div></div>'
+      +'<div><div class="actual-score">'
+      +'<div class="score-box '+(hasResult?'score-set':'')+'">'+( hasResult?act.g1:'–')+'</div>'
+      +'<div style="color:var(--muted);font-size:0.8rem">vs</div>'
+      +'<div class="score-box '+(hasResult?'score-set':'')+'">'+( hasResult?act.g2:'–')+'</div>'
+      +'</div></div>'
+      +'<div class="team"><div class="team-flag">'+m.t2+'</div><div class="team-name">'+m.n2+'</div></div>'
+      +'</div>'
+      +(hasResult?'<div class="winner-chip">🚀 Advances: '+act.winner+'</div>':'<div class="winner-chip" style="opacity:0.4">⏳ Awaiting result</div>')
+      +'</div>';
   }
 
-  const r16Header = r16.length ? `
-    <div style="grid-column:1/-1; font-family:'Oswald',sans-serif; font-size:1.1rem; font-weight:600;
-      color:#fff; display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-      🏟 Round of 16
-      <span style="flex:1;height:1px;background:var(--border);display:block"></span>
-    </div>` : '';
+  function sectionHeader(emoji, label, note) {
+    return '<div class="round-header" style="grid-column:1/-1">'+emoji+' '+label+(note?'<span style="font-size:.7rem;font-family:Inter;color:#ff9060;margin-left:8px;">'+note+'</span>':'')+'</div>';
+  }
 
-  const r32Header = r32.length ? `
-    <div style="grid-column:1/-1; font-family:'Oswald',sans-serif; font-size:1.1rem; font-weight:600;
-      color:#fff; display:flex; align-items:center; gap:10px; margin-top:${r16.length?'16px':'0'}; margin-bottom:4px;">
-      ⚔️ Round of 32
-      <span style="flex:1;height:1px;background:var(--border);display:block"></span>
-    </div>` : '';
+  let html = '';
+  if (qf.length)  html += '<div class="matches-grid" style="margin-bottom:24px">'+sectionHeader('🏆','Quarter Finals','(goals 3pts · winner 1.5pts)')+qf.map(matchCard).join('')+'</div>';
+  if (r16.length) html += '<div class="matches-grid" style="margin-bottom:24px">'+sectionHeader('⚔️','Round of 16','')+r16.map(matchCard).join('')+'</div>';
+  if (r32.length) html += '<div class="matches-grid">'+sectionHeader('🏟️','Round of 32','')+r32.map(matchCard).join('')+'</div>';
 
-  document.getElementById('matches-container').innerHTML =
-    r16Header + r16.map(matchCard).join('') +
-    r32Header + r32.map(matchCard).join('');
+  document.getElementById('matches-container').innerHTML = html;
 }
 
 // ─── PREDICTIONS ─────────────────────────────────────────────────────────────
@@ -615,7 +655,7 @@ function renderPredictions() {
     }
     return `
       <div class="pred-card">
-        <div class="pred-match-label">${m.round === 'R16' ? '1/16 · R16' : '1/32 · R32'} · ${m.time}</div>
+        <div class="pred-match-label">${m.round === 'QF' ? '1/4 · QF ⚡' : m.round === 'R16' ? '1/16 · R16' : '1/32 · R32'} · ${m.time}</div>
         <div class="pred-teams">
           <div class="pred-team">
             <div class="pred-flag">${m.t1}</div>
@@ -638,13 +678,18 @@ function renderPredictions() {
 
 // ─── ADMIN ───────────────────────────────────────────────────────────────────
 function renderAdmin() {
-  const html = sortedMatches().map(m => {
+  const sorted = sortedMatches();
+  const qf  = sorted.filter(m => m.round === 'QF');
+  const r16 = sorted.filter(m => m.round === 'R16');
+  const r32 = sorted.filter(m => m.round !== 'QF' && m.round !== 'R16');
+  const allSorted = [...qf, ...r16, ...r32];
+  const html = allSorted.map(m => {
     const act = actuals[m.id] || {};
     return `
       <div class="admin-match-card">
         <div class="admin-match-header">
           <div class="admin-match-title">
-            <span class="match-round">${m.round === 'R16' ? '1/16' : '1/32'}</span>
+            <span class="match-round">${m.round === 'QF' ? '1/4' : m.round === 'R16' ? '1/16' : '1/32'}</span>
             ${m.t1} ${m.n1} vs ${m.n2} ${m.t2}
           </div>
           <span class="match-time">🕐 ${m.time}</span>
