@@ -332,9 +332,9 @@ function calcPoints(pid, scope) {
   const groupPts = p?.groupPts || 0;
   let goals = 0, winner = 0;
   let preds = [];
-  if (scope === 'from_r16')     preds = [...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[])];
-  else if (scope === 'from_qf') preds = [...(PREDS_QF[pid]||[])];
-  else                          preds = [...(PREDS_R32[pid]||[]), ...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[])];
+  if (scope === 'from_r16')     preds = [...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
+  else if (scope === 'from_qf') preds = [...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
+  else                          preds = [...(PREDS_R32[pid]||[]), ...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
   for (const pred of preds) {
     const act = actuals[pred.mid];
     if (!act || act.g1 === undefined) continue;
