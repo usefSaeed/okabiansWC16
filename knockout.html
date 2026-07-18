@@ -53,6 +53,8 @@
 .matches-group { margin-bottom:28px; }
 .matches-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
 .round-header { font-family:‘Oswald’,sans-serif; font-size:1.1rem; font-weight:600; color:var(–gold); letter-spacing:1px; padding:8px 4px 4px; border-bottom:1px solid var(–border); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+.round-header.fin { color:#ffd700; }
+.match-round.fin { background:rgba(255,215,0,.12); color:var(–gold); border-color:rgba(255,215,0,.3); }
 .round-header.sf { color:#ff3d7f; }
 .round-header.qf { color:#ff6b35; }
 .round-header.r16 { color:var(–gold); }
@@ -259,6 +261,10 @@ const MATCHES_SF = [
 ];
 
 // R32 predictions
+const MATCHES_FIN = [
+  { id:'fin_01', t1:'🇫🇷', n1:'France',  t2:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', n2:'England',   time:'Jul 19 · 00:00' },
+  { id:'fin_02', t1:'🇪🇸', n1:'Spain',   t2:'🇦🇷', n2:'Argentina', time:'Jul 19 · 22:00' },
+];
 const PREDS_R32 = {
   hooba: [{mid:'m01',g1:1,g2:2,w:'Canada'},{mid:'m02',g1:3,g2:1,w:'Brazil'},{mid:'m03',g1:2,g2:0,w:'Germany'},{mid:'m04',g1:2,g2:1,w:'Netherlands'},{mid:'m05',g1:1,g2:2,w:'Norway'},{mid:'m06',g1:3,g2:0,w:'France'},{mid:'m07',g1:3,g2:1,w:'Mexico'},{mid:'m08',g1:3,g2:1,w:'England'},{mid:'m09',g1:1,g2:3,w:'Senegal'},{mid:'m10',g1:3,g2:1,w:'USA'},{mid:'m11',g1:3,g2:0,w:'Spain'},{mid:'m12',g1:3,g2:2,w:'Portugal'},{mid:'m13',g1:2,g2:0,w:'Switzerland'},{mid:'m14',g1:1,g2:2,w:'Egypt'},{mid:'m15',g1:3,g2:0,w:'Argentina'},{mid:'m16',g1:3,g2:1,w:'Colombia'}],
   bodz:  [{mid:'m01',g1:1,g2:1,w:'Canada'},{mid:'m02',g1:3,g2:1,w:'Brazil'},{mid:'m03',g1:2,g2:0,w:'Germany'},{mid:'m04',g1:2,g2:2,w:'Netherlands'},{mid:'m05',g1:3,g2:1,w:"Côte d'Ivoire"},{mid:'m06',g1:4,g2:1,w:'France'},{mid:'m07',g1:2,g2:1,w:'Mexico'},{mid:'m08',g1:3,g2:0,w:'England'},{mid:'m09',g1:1,g2:2,w:'Senegal'},{mid:'m10',g1:4,g2:1,w:'USA'},{mid:'m11',g1:3,g2:1,w:'Spain'},{mid:'m12',g1:2,g2:1,w:'Portugal'},{mid:'m13',g1:2,g2:1,w:'Switzerland'},{mid:'m14',g1:1,g2:2,w:'Egypt'},{mid:'m15',g1:3,g2:0,w:'Argentina'},{mid:'m16',g1:2,g2:1,w:'Colombia'}],
@@ -315,6 +321,32 @@ const PREDS_SF = {
     { mid:'sf_02', g1:2, g2:3, w:'Argentina' },
   ],
 };
+const PREDS_FIN = {
+  hamada: [
+    { mid:'fin_01', g1:2, g2:1, w:'France' },
+    { mid:'fin_02', g1:2, g2:1, w:'Spain' },
+  ],
+  bodz: [
+    { mid:'fin_01', g1:2, g2:0, w:'France' },
+    { mid:'fin_02', g1:1, g2:0, w:'Spain' },
+  ],
+  hooba: [
+    { mid:'fin_01', g1:2, g2:2, w:'France' },
+    { mid:'fin_02', g1:1, g2:2, w:'Argentina' },
+  ],
+  joe: [
+    { mid:'fin_01', g1:0, g2:1, w:'England' },
+    { mid:'fin_02', g1:2, g2:2, w:'Spain' },
+  ],
+  thoory: [
+    { mid:'fin_01', g1:1, g2:2, w:'England' },
+    { mid:'fin_02', g1:2, g2:2, w:'Argentina' },
+  ],
+  omar: [
+    { mid:'fin_01', g1:2, g2:0, w:'France' },
+    { mid:'fin_02', g1:2, g2:1, w:'Spain' },
+  ],
+};
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let actuals = {};
 let selectedPid = 'omar';
@@ -332,16 +364,17 @@ function calcPoints(pid, scope) {
   const groupPts = p?.groupPts || 0;
   let goals = 0, winner = 0;
   let preds = [];
-  if (scope === 'from_r16')     preds = [...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
-  else if (scope === 'from_qf') preds = [...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
-  else                          preds = [...(PREDS_R32[pid]||[]), ...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[]), ...(PREDS_SF[pid]||[])];
+  if (scope === 'from_r16')     preds = [...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[])];
+  else if (scope === 'from_qf') preds = [...(PREDS_QF[pid]||[])];
+  else                          preds = [...(PREDS_R32[pid]||[]), ...(PREDS_R16[pid]||[]), ...(PREDS_QF[pid]||[])];
   for (const pred of preds) {
     const act = actuals[pred.mid];
     if (!act || act.g1 === undefined) continue;
     const isQF = pred.mid.startsWith('q');
     const isSF = pred.mid.startsWith('sf_');
-    const gPts = isSF ? 4 : isQF ? 3 : 2;
-    const wPts = isSF ? 2 : isQF ? 1.5 : 1;
+    const isFIN = pred.mid.startsWith('fin_');
+    const gPts = isFIN ? 6 : isSF ? 4 : isQF ? 3 : 2;
+    const wPts = isFIN ? 3 : isSF ? 2 : isQF ? 1.5 : 1;
     if (act.g1 === pred.g1 && act.g2 === pred.g2) goals += gPts;
     if (act.winner && act.winner === pred.w) winner += wPts;
   }
@@ -354,13 +387,15 @@ function matchPoints(pid, mid) {
   const pred = (PREDS_R32[pid]||[]).find(p=>p.mid===mid)
             || (PREDS_R16[pid]||[]).find(p=>p.mid===mid)
             || (PREDS_QF[pid]||[]).find(p=>p.mid===mid)
-            || (PREDS_SF[pid]||[]).find(p=>p.mid===mid);
+            || (PREDS_SF[pid]||[]).find(p=>p.mid===mid)
+            || (PREDS_FIN[pid]||[]).find(p=>p.mid===mid);
   const act = actuals[mid];
   if (!pred || !act || act.g1 === undefined) return null;
   const isQF = mid.startsWith('q');
   const isSF = mid.startsWith('sf_');
-  const gPts = isSF ? 4 : isQF ? 3 : 2;
-  const wPts = isSF ? 2 : isQF ? 1.5 : 1;
+  const isFIN = mid.startsWith('fin_');
+  const gPts = isFIN ? 6 : isSF ? 4 : isQF ? 3 : 2;
+  const wPts = isFIN ? 3 : isSF ? 2 : isQF ? 1.5 : 1;
   return { goals: act.g1===pred.g1 && act.g2===pred.g2, winner: !!(act.winner && act.winner===pred.w), gPts, wPts };
 }
 
@@ -424,12 +459,14 @@ function matchCardHTML(m, roundLabel, roundCls) {
 }
 
 function renderMatches() {
+  const finHtml = sortedList(MATCHES_FIN).map(m=>matchCardHTML(m,'FINAL','fin')).join('');
   const sfHtml  = sortedList(MATCHES_SF).map(m=>matchCardHTML(m,'SF','sf')).join('');
   const qfHtml  = sortedList(MATCHES_QF).map(m=>matchCardHTML(m,'1/4 · QF','qf')).join('');
   const r16Html = sortedList(MATCHES_R16).map(m=>matchCardHTML(m,'1/16 · R16','r16')).join('');
   const r32Html = sortedList(MATCHES_R32).map(m=>matchCardHTML(m,'1/32 · R32','')).join('');
   document.getElementById('matches-container').innerHTML =
-    '<div class="matches-group"><div class="round-header sf">🔥 Semi Finals <span style="font-size:.7rem;font-family:Inter;color:#ff6090;font-weight:400">(goals 4pts · winner 2pts)</span></div><div class="matches-grid">'+sfHtml+'</div></div>'
+    '<div class="matches-group"><div class="round-header fin">🏆 Finals <span style="font-size:.7rem;font-family:Inter;color:#ffd700;font-weight:400">(goals 6pts · winner 3pts)</span></div><div class="matches-grid">'+finHtml+'</div></div>'
+    +'<div class="matches-group"><div class="round-header sf">🔥 Semi Finals <span style="font-size:.7rem;font-family:Inter;color:#ff6090;font-weight:400">(goals 4pts · winner 2pts)</span></div><div class="matches-grid">'+sfHtml+'</div></div>'
     +'<div class="matches-group"><div class="round-header qf">🏆 Quarter Finals <span style="font-size:.7rem;font-family:Inter;color:#ff9060;font-weight:400">(goals 3pts · winner 1.5pts)</span></div><div class="matches-grid">'+qfHtml+'</div></div>'
     +'<div class="matches-group"><div class="round-header r16">⚔️ Round of 16</div><div class="matches-grid">'+r16Html+'</div></div>'
     +'<div class="matches-group"><div class="round-header r32">🏟️ Round of 32</div><div class="matches-grid">'+r32Html+'</div></div>';
@@ -447,7 +484,7 @@ function renderParticipantSelector() {
 }
 
 function predCardHTML(pred, roundLabel) {
-  const m = [...MATCHES_R32,...MATCHES_R16,...MATCHES_QF,...MATCHES_SF].find(x=>x.id===pred.mid);
+  const m = [...MATCHES_R32,...MATCHES_R16,...MATCHES_QF,...MATCHES_SF,...MATCHES_FIN].find(x=>x.id===pred.mid);
   const p = PARTICIPANTS.find(x=>x.id===selectedPid);
   const pts = matchPoints(selectedPid, pred.mid);
   const isQF = pred.mid.startsWith('q');
@@ -472,13 +509,15 @@ function predCardHTML(pred, roundLabel) {
 
 function renderPredictions() {
   renderParticipantSelector();
+  const finPreds = sortedList(MATCHES_FIN).map(m=>(PREDS_FIN[selectedPid]||[]).find(p=>p.mid===m.id)).filter(Boolean);
   const sfPreds  = sortedList(MATCHES_SF).map(m=>(PREDS_SF[selectedPid]||[]).find(p=>p.mid===m.id)).filter(Boolean);
   const qfPreds  = sortedList(MATCHES_QF).map(m=>(PREDS_QF[selectedPid]||[]).find(p=>p.mid===m.id)).filter(Boolean);
   const r16Preds = sortedList(MATCHES_R16).map(m=>(PREDS_R16[selectedPid]||[]).find(p=>p.mid===m.id)).filter(Boolean);
   const r32Preds = sortedList(MATCHES_R32).map(m=>(PREDS_R32[selectedPid]||[]).find(p=>p.mid===m.id)).filter(Boolean);
   const noMsg = '<span style="color:var(--muted);font-size:.8rem">No predictions submitted.</span>';
   document.getElementById('pred-container').innerHTML =
-    '<div class="matches-group"><div class="round-header sf">🔥 Semi Finals 🔥</div><div class="pred-grid">'+(sfPreds.map(p=>predCardHTML(p,'SF')).join('')||noMsg)+'</div></div>'
+    '<div class="matches-group"><div class="round-header fin">🏆 Finals <span style="font-size:.7rem;font-family:Inter;color:#ffd700;font-weight:400">(goals 6pts · winner 3pts)</span></div><div class="matches-grid">'+finHtml+'</div></div>'
+    +'<div class="matches-group"><div class="round-header sf">🔥 Semi Finals 🔥</div><div class="pred-grid">'+(sfPreds.map(p=>predCardHTML(p,'SF')).join('')||noMsg)+'</div></div>'
     +'<div class="matches-group"><div class="round-header qf">🏆 Quarter Finals ⚡</div><div class="pred-grid">'+(qfPreds.map(p=>predCardHTML(p,'QF')).join('')||noMsg)+'</div></div>'
     +'<div class="matches-group"><div class="round-header r16">⚔️ Round of 16</div><div class="pred-grid">'+(r16Preds.map(p=>predCardHTML(p,'R16')).join('')||noMsg)+'</div></div>'
     +'<div class="matches-group"><div class="round-header r32">🏟️ Round of 32</div><div class="pred-grid">'+(r32Preds.map(p=>predCardHTML(p,'R32')).join('')||noMsg)+'</div></div>';
@@ -513,12 +552,14 @@ function adminCardHTML(m, roundLabel, roundCls) {
 }
 
 function renderAdmin() {
+  const finHtml = sortedList(MATCHES_FIN).map(m=>adminCardHTML(m,'FINAL','fin')).join('');
   const sfHtml  = sortedList(MATCHES_SF).map(m=>adminCardHTML(m,'SF','sf')).join('');
   const qfHtml  = sortedList(MATCHES_QF).map(m=>adminCardHTML(m,'1/4 · QF','qf')).join('');
   const r16Html = sortedList(MATCHES_R16).map(m=>adminCardHTML(m,'1/16 · R16','r16')).join('');
   const r32Html = sortedList(MATCHES_R32).map(m=>adminCardHTML(m,'1/32 · R32','')).join('');
   document.getElementById('admin-container').innerHTML =
-    '<div class="matches-group"><div class="round-header sf">🔥 Semi Finals</div>'+sfHtml+'</div>'
+    '<div class="matches-group"><div class="round-header fin">🏆 Finals <span style="font-size:.7rem;font-family:Inter;color:#ffd700;font-weight:400">(goals 6pts · winner 3pts)</span></div><div class="matches-grid">'+finHtml+'</div></div>'
+    +'<div class="matches-group"><div class="round-header sf">🔥 Semi Finals</div>'+sfHtml+'</div>'
     +'<div class="matches-group"><div class="round-header qf">🏆 Quarter Finals</div>'+qfHtml+'</div>'
     +'<div class="matches-group"><div class="round-header r16">⚔️ Round of 16</div>'+r16Html+'</div>'
     +'<div class="matches-group"><div class="round-header r32">🏟️ Round of 32</div>'+r32Html+'</div>';
@@ -536,7 +577,7 @@ window.saveMatch = async function(mid) {
 };
 
 window.resetMatch = async function(mid) {
-  const m = [...MATCHES_R32,...MATCHES_R16,...MATCHES_QF,...MATCHES_SF].find(x=>x.id===mid);
+  const m = [...MATCHES_R32,...MATCHES_R16,...MATCHES_QF,...MATCHES_SF,...MATCHES_FIN].find(x=>x.id===mid);
   if (!confirm('Reset result for '+m.n1+' vs '+m.n2+'?')) return;
   const btn = document.getElementById('rst_'+mid);
   if (btn) { btn.disabled=true; btn.textContent='Resetting…'; }
